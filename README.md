@@ -36,4 +36,4 @@ you can deploy to staging and production with:
     $ ./bin/deploy production
 
 ## ER Diagram
-![ER Diagram](app/assets/Comfy_Weather_Data_Model.png)
+![ER Diagram](app/assets/images/Comfy_Weather_Data_Model.png)
