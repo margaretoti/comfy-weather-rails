@@ -1,3 +1,3 @@
-class OutfitSerializer < ActiveModel::Serializer
-  attributes :id
+class OutfitSerializer < BaseSerializer
+  attributes :rating, :notes, :is_public
 end

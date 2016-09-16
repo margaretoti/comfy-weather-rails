@@ -14,12 +14,16 @@ end
 
 RSpec.configure do |config|
   config.include Features, type: :feature
+<<<<<<< HEAD
   config.include JsonSpec::Helpers
   config.include Helpers::Requests, type: :request
+=======
+  config.include Helpers::Requests, type: :request
+  config.include JsonSpec::Helpers
+>>>>>>> ab21822... cleaned up outfit model, routes, factories directory, outfit request specs, and placed dependencies in rails_helper.rb
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
-  config.include JsonSpec::Helpers
 end
 
 ActiveRecord::Migration.maintain_test_schema!
