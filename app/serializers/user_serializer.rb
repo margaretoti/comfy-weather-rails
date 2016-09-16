@@ -1,3 +1,3 @@
-class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :gender, :preferred_time, :weather_perception
+class UserSerializer < BaseSerializer
+  attributes :name, :email, :gender, :weather_perception, :preferred_time
 end

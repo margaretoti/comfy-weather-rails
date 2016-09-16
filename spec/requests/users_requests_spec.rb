@@ -8,13 +8,11 @@ describe 'Users endpoints' do
       get(
         users_url,
         {},
-        { 'Accept' => 'application/vnd.comfy-weather-server.com; version=1',
-          'Content-Type' => 'application/json'
-        }
+        accept_headers
       )
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_size(3)#at_path('users')
+      expect(response.body).to have_json_size(3).at_path('users')
     end
   end
 end

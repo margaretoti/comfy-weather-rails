@@ -4,7 +4,6 @@ Rails.application.routes.draw do
               name: 'Accept',
               value: 'application/vnd.comfy-weather-server.com; version=1' },
               defaults: { format: :json }) do
-    resources :users
+    resources :users, only: :index
   end
-  root "v1/users#index"
 end
