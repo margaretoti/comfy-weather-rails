@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.3.1"
 
+gem 'active_model_serializers', '~> 0.10.0'
 gem "autoprefixer-rails"
 gem "delayed_job_active_record"
 gem "flutie"
@@ -52,6 +53,7 @@ group :test do
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
+  gem "json_spec"
   gem "shoulda-matchers"
   gem "simplecov", require: false
   gem "timecop"

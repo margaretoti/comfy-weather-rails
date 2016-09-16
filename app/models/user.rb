@@ -2,6 +2,10 @@ class User < ActiveRecord::Base
   enum gender: {male: 0, female: 1, other:2}
 	enum weather_perception: {chilly:0, neutral: 1, warm:2}
 
+  #has_many :outfits
+
+  validates_presence_of :name
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
