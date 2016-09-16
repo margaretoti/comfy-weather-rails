@@ -53,6 +53,7 @@ group :test do
   gem "capybara-webkit"
   gem "database_cleaner"
   gem "formulaic"
+  gem "json_spec"
   gem "launchy"
   gem "json_spec"
   gem "shoulda-matchers"
