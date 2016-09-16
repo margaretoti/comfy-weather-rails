@@ -11,6 +11,7 @@ gem "jquery-rails"
 gem "normalize-rails", "~> 3.0.0"
 gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
+gem "paperclip", "~> 5.0.0"
 gem "pg"
 gem "puma"
 gem "rack-canonical-host"
