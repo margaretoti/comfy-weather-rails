@@ -1,3 +1,3 @@
 class OutfitSerializer < BaseSerializer
-  attributes :uuid, :rating, :notes, :is_public
+  attributes :rating, :notes, :is_public
 end
