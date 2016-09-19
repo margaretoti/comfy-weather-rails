@@ -5,5 +5,6 @@ Rails.application.routes.draw do
               value: 'application/vnd.comfy-weather-server.com; version=1' },
               defaults: { format: :json }) do
     resources :users, only: :index
+    resources :outfits, only: [:index]
   end
 end
