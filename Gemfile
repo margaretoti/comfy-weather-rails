@@ -2,12 +2,15 @@ source "https://rubygems.org"
 
 ruby "2.3.1"
 
+gem 'active_model_serializers', '0.8.3'
 gem "autoprefixer-rails"
 gem "delayed_job_active_record"
 gem "flutie"
 gem "honeybadger"
 gem "jquery-rails"
 gem "normalize-rails", "~> 3.0.0"
+gem 'omniauth'
+gem 'omniauth-facebook', '1.4.0'
 gem "pg"
 gem "puma"
 gem "rack-canonical-host"
@@ -38,6 +41,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "pry-byebug"
   gem "pry-rails"
+  gem "railroady"
   gem "rspec-rails", "~> 3.4.0"
 end
 
@@ -50,6 +54,7 @@ group :test do
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
+  gem "json_spec"
   gem "shoulda-matchers"
   gem "simplecov", require: false
   gem "timecop"
