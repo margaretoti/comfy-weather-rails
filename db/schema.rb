@@ -33,8 +33,18 @@ ActiveRecord::Schema.define(version: 20160916131945) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+  create_table "outfits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "rating",             null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.text     "notes"
+    t.boolean  "is_public"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.integer  "gender"
@@ -47,26 +57,6 @@ ActiveRecord::Schema.define(version: 20160916131945) do
     t.datetime "oauth_expires_at",               null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-=======
-  create_table "outfits", force: :cascade do |t|
-    t.integer  "rating"
-    t.string   "notes"
-    t.boolean  "is_public"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
->>>>>>> fadc19f... created the outfit model
-=======
-  create_table "outfits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.integer  "rating",             null: false
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-    t.text     "notes"
-    t.boolean  "is_public"
->>>>>>> f29c9d3... added uuid and adjusted migration and model to include photo using paperclip and a notes limit. rspec tests fail due to uuid error
   end
 
 end

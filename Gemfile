@@ -56,7 +56,6 @@ group :test do
   gem "formulaic"
   gem "json_spec"
   gem "launchy"
-  gem "json_spec"
   gem "shoulda-matchers"
   gem "simplecov", require: false
   gem "timecop"
