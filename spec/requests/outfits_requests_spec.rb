@@ -12,4 +12,17 @@ describe 'Outfits endpoints' do
       expect(response.body).to have_json_size(3).at_path('outfits')
     end
   end
+
+  describe 'POST/outfits' do
+    it 'returns 200 status and the JSON for an outfit' do
+      outfit_params = { outfit: { rating: 1, notes: "comfy" } }
+      post(outfits_url, outfit_params.to_json, accept_headers)
+
+      # binding.pry
+      expect(response).to have_http_status :ok # okay = 200, created = 201
+      expect(response.body).to have_json_path('outfit/id')
+
+      # test path for each attribute
+    end
+  end
 end
