@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
 
   def self.populating_from_omniauth(auth)
-
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.provider = auth.provider
       user.uid = auth.uid
