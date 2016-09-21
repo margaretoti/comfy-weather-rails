@@ -1,20 +1,6 @@
 class V1::UsersController < ApplicationController
-
-  skip_before_filter  :verify_authenticity_token
-
   def index
     users = User.all
     render json: users
-  end
-
-  def create
-    user = User.populating_from_omniauth(env["omniauth.auth"])
-    session[:user_id] = user.id
-    redirect_to root_url
-  end
-
-  def destroy
-    session[:user_id] = nil
-    redirect_to root_url
   end
 end
