@@ -43,9 +43,13 @@ ActiveRecord::Schema.define(version: 20160922204245) do
     t.datetime "photo_updated_at"
     t.text     "notes"
     t.boolean  "is_public"
+    t.integer  "user_id"
   end
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+
+  add_index "outfits", ["user_id"], name: "index_outfits_on_user_id", using: :btree
+
     t.string   "email"
     t.integer  "gender"
     t.time     "preferred_time"
@@ -63,4 +67,5 @@ ActiveRecord::Schema.define(version: 20160922204245) do
     t.datetime "avatar_updated_at"
   end
 
+  add_foreign_key "outfits", "users"
 end

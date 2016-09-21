@@ -15,8 +15,8 @@ describe 'Outfits endpoints' do
 
   describe 'POST/outfits' do
     it 'returns 200 status and the JSON for an outfit' do
-      file = File.open('girl1.jpg', 'rb')
-      file.read.force_encoding(Encoding::UTF_8)
+      file = File.open('girl2.jpg', 'rb')
+      # file.read.force_encoding(Encoding::UTF_8)
 
       outfit_params = { outfit: { rating: 1, notes: "comfy", photo: file} }
       post(outfits_url, outfit_params.to_json, accept_headers)
