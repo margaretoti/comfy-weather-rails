@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   enum gender: { male: 0, female: 1, other: 2 }
-  enum weather_perception: {chilly:0, neutral: 1, warm: 2 }
+  enum weather_perception: { chilly:0, neutral: 1, warm: 2 }
 
   validates_presence_of :name, :uid, :oauth_token, :oauth_expires_at
 
