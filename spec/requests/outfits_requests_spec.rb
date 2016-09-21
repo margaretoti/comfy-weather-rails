@@ -18,11 +18,18 @@ describe 'Outfits endpoints' do
       outfit_params = { outfit: { rating: 1, notes: "comfy" } }
       post(outfits_url, outfit_params.to_json, accept_headers)
 
-      # binding.pry
-      expect(response).to have_http_status :ok # okay = 200, created = 201
+      expect(response).to have_http_status :ok
       expect(response.body).to have_json_path('outfit/id')
-
-      # test path for each attribute
+      expect(response.body).to have_json_path('outfit/created_at')
+      expect(response.body).to have_json_path('outfit/updated_at')
+      expect(response.body).to have_json_path('outfit/rating')
+      # expect(response.body).to have_json_path('outfit/photo')
+      # expect(response.body).to have_json_path('outfit/photo_file_name')
+      # expect(response.body).to have_json_path('outfit/photo_content_type')
+      # expect(response.body).to have_json_path('outfit/photo_file_size')
+      # expect(response.body).to have_json_path('outfit/photo_updated_at')
+      expect(response.body).to have_json_path('outfit/notes')
+      expect(response.body).to have_json_path('outfit/is_public')
     end
   end
 end
