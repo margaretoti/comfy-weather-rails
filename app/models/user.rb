@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   enum weather_perception: { chilly:0, neutral: 1, warm: 2 }
 
   validates_presence_of :name, :uid, :oauth_token, :oauth_expires_at
+  validates_uniqueness_of :email
 
   def self.populating_from_omniauth(auth)
 

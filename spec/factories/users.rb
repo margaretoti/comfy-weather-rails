@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    email "MyString"
+    sequence(:email){|n| "user#{n}@factory.com" }
     gender 1
     preferred_time "2016-09-16 09:19:45"
     weather_perception 1

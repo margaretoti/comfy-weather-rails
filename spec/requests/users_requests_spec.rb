@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'spec_helper'
 
 describe 'Users endpoints' do
   describe 'GET /users' do
