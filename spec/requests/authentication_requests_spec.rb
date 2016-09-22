@@ -24,8 +24,8 @@ describe 'GET /auth/facebook/callback' do
       OmniAuthTestHelper::invalid_facebook_login_setup
       get '/auth/facebook/callback'
       request.env['omniauth.auth'] = OmniAuth.config.mock_auth[:facebook]
-      binding.pry
-      expect{response}.to raise_exception
+
+      expect { response }.to raise_exception
     end
   end
 end
