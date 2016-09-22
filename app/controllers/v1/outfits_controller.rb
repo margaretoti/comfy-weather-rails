@@ -7,9 +7,9 @@ class V1::OutfitsController < ApplicationController
 
   def create
     outfit = Outfit.create(outfit_params.except(:photo))
-    binding.pry
     ImageUploader.perform(outfit: outfit, base64_string: outfit_params[:photo])
     outfit.save
+
     render json: outfit
   end
 
