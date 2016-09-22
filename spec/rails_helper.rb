@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.include Features, type: :feature
   config.include Helpers::Requests, type: :request
   config.include JsonSpec::Helpers
+  config.include OmniAuthTestHelper, type: :controller
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
