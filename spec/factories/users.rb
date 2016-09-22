@@ -9,5 +9,7 @@ FactoryGirl.define do
     name "MyString"
     oauth_token "MyString"
     oauth_expires_at "2016-09-16 09:19:45"
+    avatar { fixture_file_upload(Rails.root.join('spec', 'photos', 'test.png'),
+       'image/png') }
   end
 end
