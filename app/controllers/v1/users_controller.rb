@@ -6,5 +6,5 @@ class V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update_attribue(:avatar, params[:user][:avatar])
+    user.update_attribute(:avatar, params[:user][:avatar])
 end
