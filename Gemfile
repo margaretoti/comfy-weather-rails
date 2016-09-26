@@ -4,6 +4,7 @@ ruby "2.3.1"
 
 gem 'active_model_serializers', '0.8.3'
 gem "autoprefixer-rails"
+gem 'aws-sdk', '~> 2.3'
 gem "delayed_job_active_record"
 gem "flutie"
 gem "honeybadger"

@@ -6,5 +6,12 @@ class V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update_attribute(:avatar, params[:user][:avatar])
+    user.update!
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:email, :gender, :preferred_time,
+    :weather_perception, :avatar)
+  end
 end
