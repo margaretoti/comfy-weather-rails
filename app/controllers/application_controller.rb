@@ -8,4 +8,7 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  rescue_from ActiveRecord::RecordNotSaved do |exception|
+    render json: { errors: exception.message }, status: :unprocessable_entity
+  end
 end
