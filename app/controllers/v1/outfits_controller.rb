@@ -6,8 +6,9 @@ class V1::OutfitsController < ApplicationController
   end
 
   def create
-    outfit = Outfit.new(outfit_params)
-    outfit.save
+    outfit = Outfit.create(outfit_params)
+    outfit.save!
+
     render json: outfit
   end
 
