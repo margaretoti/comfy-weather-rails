@@ -15,9 +15,9 @@ describe 'Outfits endpoints' do
 
   describe 'POST/outfits' do
     it 'returns 200 status and the JSON for an outfit' do
-      base64_string = Base64.encode64(File.open('girl2.jpg', 'rb').read)
+      base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
 
-      outfit_params = { outfit: { rating: 1, notes: "comfy", photo: base64_string } }
+      outfit_params = { outfit: { rating: 1, notes: "comfy", photo: "data:image/jpg;base64,#{base64_string}"  } }
       post(outfits_url, outfit_params.to_json, accept_headers)
 
       expect(response).to have_http_status :ok
