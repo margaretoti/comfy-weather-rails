@@ -1,11 +1,10 @@
 class CreateArticleOfClothings < ActiveRecord::Migration
   def change
-    enable_extension 'uuid-ossp'
-
-    create_table :article_of_clothings do |t|
+    create_table :article_of_clothings, id: :uuid do |t|
       t.timestamps null: false
 
       t.string :description, null: false
+      t.references :user, type: :uuid, index: true, foreign_key: true
     end
   end
 end
