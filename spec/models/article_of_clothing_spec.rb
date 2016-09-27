@@ -1,5 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe ArticleOfClothing, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe ArticleOfClothing do
+  describe 'validations' do
+    it { should belong_to(:user) }
+    it { should have_many(:outfits) }
+    it { should validate_presence_of(:description) }
+  end
 end

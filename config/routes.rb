@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users, only: :index
     resources :outfits, only: [:index, :create]
     resources :authentications, only: [:create, :destroy]
+    resources :article_of_clothings, only: :index
   end
   match 'auth/:provider/callback', to: 'v1/authentications#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
