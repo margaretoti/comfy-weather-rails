@@ -9,6 +9,6 @@ class V1::AuthenticationsController < ApplicationController
     user.oauth_expires_at = 60.days.from_now
     user.save!
     session[:user_id] = user.id
-    redirect_to root_url
+    render :json user
   end
 end
