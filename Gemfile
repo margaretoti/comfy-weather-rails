@@ -9,6 +9,7 @@ gem "delayed_job_active_record"
 gem "flutie"
 gem "honeybadger"
 gem "jquery-rails"
+gem "koala"
 gem "normalize-rails", "~> 3.0.0"
 gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'

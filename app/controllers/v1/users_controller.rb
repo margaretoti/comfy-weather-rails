@@ -4,9 +4,21 @@ class V1::UsersController < ApplicationController
     render json: users
   end
 
+  def create
+    @graph = Koala::Facebook::API.new(params[:access_token])
+    user_data = @graph.get_object("me?fields=name,picture,id")
+    user = User.populating_from_koala(user_data)
+    session[:user_id] = user.id
+    render json: user
+  end
+
   def update
     user = User.find(params[:id])
-    user.update!
+    if user.update!(user_params)
+      render json: user
+    else
+      render json: user #might want to redirect to the profile editing page
+    end
   end
 
   private

@@ -13,6 +13,7 @@ module Features
 end
 
 RSpec.configure do |config|
+  config.include ExternalRequests
   config.include Features, type: :feature
   config.include Helpers::Requests, type: :request
   config.include JsonSpec::Helpers

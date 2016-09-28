@@ -7,19 +7,20 @@ class User < ActiveRecord::Base
 
   has_many :outfits
 
-  validates_presence_of :name, :uid, :oauth_token, :oauth_expires_at
-  validates_uniqueness_of :email
+  validates :name, presence: true
+  validates :uid, presence: true, uniqueness: true
+  validates :auth_token, presence: true, uniqueness: true
+  validates :auth_expires_at, presence: true
+  validates :email, uniqueness: true
 
-  def self.populating_from_omniauth(auth)
-    find_or_initialize_by(provider: auth.provider, uid: auth.uid).tap do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      if auth.info.image.present?
-        user.avatar = auth.info.image
-      end
+  def self.populating_from_koala(graph)
+    find_or_initialize_by(uid: graph["id"]).tap do |user|
+      user.provider = "facebook"
+      user.uid = graph["id"]
+      user.name = graph["name"]
+      user.auth_token = AuthToken.generate
+      user.auth_expires_at = AuthToken.expires_at
+      user.avatar = "https://graph.facebook.com/#{graph["id"]}/picture"
       user.save!
     end
   end

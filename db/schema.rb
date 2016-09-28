@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20160928150949) do
     t.string   "provider",                        null: false
     t.string   "uid",                             null: false
     t.string   "name",                            null: false
-    t.string   "oauth_token",                     null: false
-    t.datetime "oauth_expires_at",                null: false
+    t.string   "auth_token",                      null: false
+    t.datetime "auth_expires_at",                 null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "avatar_file_name"
