@@ -7,8 +7,11 @@ class User < ActiveRecord::Base
 
   has_many :outfits
 
-  validates_presence_of :name, :uid, :auth_token, :auth_expires_at
-  validates_uniqueness_of :email, :auth_token
+  validates :name, presence: true
+  validates :uid, presence: true, uniqueness: true
+  validates :auth_token, presence: true, uniqueness: true
+  validates :auth_expires_at, presence: true
+  validates :email, uniqueness: true
 
   def self.populating_from_koala(graph)
     find_or_initialize_by(uid: graph["id"]).tap do |user|

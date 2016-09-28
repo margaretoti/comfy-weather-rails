@@ -16,4 +16,26 @@ describe 'Users endpoints' do
       expect(response.body).to have_json_size(3).at_path('users')
     end
   end
+
+  describe 'POST /users' do
+    it 'With a valid access token' do
+      stub_valid_facebook_me_request
+
+      post(users_url, {access_token: ''}, accept_headers)
+
+      expect(User.count).to eq 1
+
+   #that we create a user
+   #The JSON that we send back is correct
+    end
+
+    it 'with an invalid access token' do
+      stub_invalid_facebook_me_request
+
+      post(users_url, {access_token: ''}, accept_headers)
+
+      expect(User.count).to eq 0
+      expect have_http_status :bad_request
+    end
+  end
 end
