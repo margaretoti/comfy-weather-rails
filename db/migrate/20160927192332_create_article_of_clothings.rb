@@ -4,7 +4,7 @@ class CreateArticleOfClothings < ActiveRecord::Migration
       t.timestamps null: false
 
       t.string :description, null: false
-      t.references :user, type: :uuid, index: true, foreign_key: true
+      t.references :user, type: :uuid, index: true, foreign_key: true, null: false
     end
   end
 end

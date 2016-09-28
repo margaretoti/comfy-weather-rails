@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20160927192332) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "description", null: false
-    t.uuid     "user_id"
+    t.uuid     "user_id",     null: false
   end
 
   add_index "article_of_clothings", ["user_id"], name: "index_article_of_clothings_on_user_id", using: :btree
