@@ -8,5 +8,7 @@ describe ArticleOfClothing do
 
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should have_many(:outfit_article_of_clothings) }
+    it { should have_many(:outfits).through(:outfit_article_of_clothings) }
   end
 end
