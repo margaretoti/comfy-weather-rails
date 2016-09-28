@@ -8,6 +8,7 @@ class Outfit < ActiveRecord::Base
 
   validates_attachment :photo, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'] }
 
+  validates :user, presence: true
   validates :rating, presence: true
   validates :notes, length: { maximum: 250 }
 end
