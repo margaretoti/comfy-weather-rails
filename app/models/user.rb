@@ -10,17 +10,16 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :uid, :oauth_token, :oauth_expires_at
   validates_uniqueness_of :email
 
-  def self.populating_from_omniauth(auth)
-    find_or_initialize_by(provider: auth.provider, uid: auth.uid).tap do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      if auth.info.image.present?
-        user.avatar = auth.info.image
-      end
-      user.save!
+  def self.populating_from_koala(graph)
+    find_or_initialize_by(uid: graph["id"]).tap do |user|
+      user.provider = "facebook"
+      user.uid = graph["id"]
+      user.name = graph["name"]
+      r = open("https://graph.facebook.com/#{graph["id"]}/picture")
+      user.avatar_content_type = "image/jpg"
+      user.avatar_file_size = r.length
+      user.avatar_file_name = "#{graph["name"]}_avatar"
+      user.avatar_updated_at = Time.now
     end
   end
 end

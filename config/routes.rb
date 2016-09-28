@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     resources :authentications, only: [:create, :destroy]
     resources :article_of_clothings, only: :index
   end
+=begin
   match 'auth/:provider/callback', to: 'v1/authentications#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'v1/authentications#destroy', as: 'signout', via: [:get, :post]
+=end
 end
