@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotSaved do |exception|
     render json: { errors: exception.message }, status: :unprocessable_entity
   end
+
+  rescue_from Koala::Facebook::AuthenticationError do |exception|
+    render json: { errors: exception.message }, status: :bad_request
+  end
 end

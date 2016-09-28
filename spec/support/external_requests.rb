@@ -4,6 +4,12 @@ module ExternalRequests
         to_return(body: facebook_data)
   end
 
+  def stub_facebook_me_picture_request
+    stub_request(:get, "https://graph.facebook.com/7a0ab043-fc5f-48bf-8120-e1519134c097/picture").
+    with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+    to_return(:status => 200, :body => "", :headers => {})
+  end
+
   def stub_valid_facebook_me_request
     stub_request(:get, /https:\/\/graph.facebook.com\/me\?access_token=.*/).
       to_return(body: facebook_data)
