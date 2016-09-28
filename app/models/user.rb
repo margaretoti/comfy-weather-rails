@@ -20,11 +20,7 @@ class User < ActiveRecord::Base
       user.name = graph["name"]
       user.auth_token = AuthToken.generate
       user.auth_expires_at = AuthToken.expires_at
-      r = open("https://graph.facebook.com/#{graph["id"]}/picture")
-      user.avatar_content_type = "image/jpg"
-      user.avatar_file_size = r.length
-      user.avatar_file_name = "#{graph["name"]}_avatar"
-      user.avatar_updated_at = Time.now
+      user.avatar = "https://graph.facebook.com/#{graph["id"]}/picture"
       user.save!
     end
   end
