@@ -7,7 +7,6 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
-#require "koala"
 Bundler.require(*Rails.groups)
 module ComfyWeatherServer
   class Application < Rails::Application
