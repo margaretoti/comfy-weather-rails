@@ -14,7 +14,11 @@ class V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update!
+    if user.update!(user_params)
+      render json: user
+    else
+      render json: user #might want to redirect to the profile editing page
+    end
   end
 
   private
