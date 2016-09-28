@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922204245) do
+ActiveRecord::Schema.define(version: 20160927192332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "article_of_clothings", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "description", null: false
+    t.uuid     "user_id",     null: false
+  end
+
+  add_index "article_of_clothings", ["user_id"], name: "index_article_of_clothings_on_user_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -66,5 +75,6 @@ ActiveRecord::Schema.define(version: 20160922204245) do
     t.datetime "avatar_updated_at"
   end
 
+  add_foreign_key "article_of_clothings", "users"
   add_foreign_key "outfits", "users"
 end
