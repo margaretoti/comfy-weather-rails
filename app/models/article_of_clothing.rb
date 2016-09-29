@@ -8,4 +8,8 @@ class ArticleOfClothing < ActiveRecord::Base
   validates :user, presence: true
   validates :category, presence: true
   validates :description, presence: true
+
+  def frequency
+    self.outfit_article_of_clothings.count
+  end
 end
