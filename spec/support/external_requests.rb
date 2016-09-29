@@ -2,7 +2,7 @@ module ExternalRequests
   def stub_weather_api_request
     stub_request(:get, "https://api.darksky.net/forecast/8c47b7928f3919eb493c0d90dd9dd4dc/42,-71").
     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.2'}).
-    to_return(:status => 200, :body => weather_data, :headers => {})
+    to_return(status: 200, body: weather_data, headers: {})
   end
 
   def stub_facebook_me_request
@@ -13,7 +13,7 @@ module ExternalRequests
   def stub_facebook_me_picture_request
     stub_request(:get, "https://graph.facebook.com/7a0ab043-fc5f-48bf-8120-e1519134c097/picture").
     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-    to_return(:status => 200, :body => "", :headers => {})
+    to_return(status: 200, body: "", headers: {})
   end
 
   def stub_valid_facebook_me_request
@@ -31,27 +31,84 @@ module ExternalRequests
      latitude: 42,
      longitude: 71,
      offset: 6,
+     currently:
+     {
+        time: 1475175917,
+        summary: "Overcast",
+        icon: "cloudy",
+        nearestStormDistance: 33,
+        nearestStormBearing: 161,
+        precipIntensity: 0,
+        precipProbability: 0,
+        temperature: 58.91,
+        apparentTemperature: 58.91,
+        dewPoint: 51.49,
+        humidity: 0.76,
+        windSpeed: 10.74,
+        windBearing: 38,
+        visibility: 9.76,
+        cloudCover: 0.98,
+        pressure: 1030.95,
+        ozone: 288.43
+      },
      hourly:
      {
        data:
         [
           {},{},{},{},{},{},{},
-          {time: 1475157331,
-           summary: "Clear",
-           icon: "clear-night",
-           precipIntensity: 0.0016,
-           precipProbability: 0.03,
+          {time: 1475197200,
+           summary: "Overcast",
+           icon: "cloudy",
+           precipIntensity: 0,
+           precipProbability: 0,
+           temperature: 54.67,
+           apparentTemperature: 54.67,
+           dewPoint: 50.87,
+           humidity: 0.87,
+           windSpeed: 10.5,
+           windBearing: 39,
+           visibility: 8.96,
+           cloudCover: 0.98,
+           pressure: 1031.83,
+           ozone: 287.76
+         },
+         {},{},{},{},{},{},{},
+         {
+           time: 1475226000,
+           summary: "Overcast",
+           icon: "cloudy",
+           precipIntensity: 0,
+           precipProbability: 0,
+           temperature: 53.7,
+           apparentTemperature: 53.7,
+           dewPoint: 49.7,
+           humidity: 0.86,
+           windSpeed: 10.42,
+           windBearing: 42,
+           visibility: 8.92,
+           cloudCover: 1,
+           pressure: 1030.77,
+           ozone: 283.2
+        },
+        {},{},{},
+        {
+           time: 1475244000,
+           summary: "Overcast",
+           icon: "cloudy",
+           precipIntensity: 0.0028,
+           precipProbability: 0.07,
            precipType: "rain",
-           temperature: 41.93,
-           apparentTemperature: 37.2,
-           dewPoint: 16.78,
-           humidity: 0.36,
-           windSpeed: 7.49,
-           windBearing: 190,
-           cloudCover: 0.1,
-           pressure: 1005.44,
-           ozone: 270
-         }
+           temperature: 56.83,
+           apparentTemperature: 56.83,
+           dewPoint: 51.86,
+           humidity: 0.83,
+           windSpeed: 14.1,
+           windBearing: 46,
+           visibility: 9.82,
+           cloudCover: 1,
+           pressure: 1030.67,
+           ozone: 279.42
+        }
        ]
      }
    }.to_json
