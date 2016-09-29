@@ -10,7 +10,6 @@ describe 'Categories endpoints' do
 
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(10).at_path('categories')
-      #expect(response.body).to have_json_size(20).at_path('categories')
     end
   end
 end
