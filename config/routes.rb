@@ -8,6 +8,6 @@ Rails.application.routes.draw do
     resources :outfits, only: [:index, :create]
     resources :authentications, only: [:create, :destroy]
     resources :article_of_clothings, only: :index
-    resources :forecasts, only: :index
+    resources :forecasts, only: :create
   end
 end

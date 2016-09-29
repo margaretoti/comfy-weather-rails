@@ -6,12 +6,6 @@ class ApplicationController < ActionController::Base
     render json: { errors: exception.message }, status: :unprocessable_entity
   end
 
-  private
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
-
   rescue_from ActiveRecord::RecordNotSaved do |exception|
     render json: { errors: exception.message }, status: :unprocessable_entity
   end
@@ -19,4 +13,10 @@ class ApplicationController < ActionController::Base
   rescue_from Koala::Facebook::AuthenticationError do |exception|
     render json: { errors: exception.message }, status: :bad_request
   end
+
+  private
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
 end
