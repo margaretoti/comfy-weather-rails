@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Category do
   describe 'associations' do
-    # it { should have_many(:article_of_clothings) }
+    it { should have_many(:article_of_clothings) }
   end
 
   describe 'validations' do

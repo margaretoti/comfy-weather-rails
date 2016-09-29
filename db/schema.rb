@@ -22,8 +22,10 @@ ActiveRecord::Schema.define(version: 20160928213724) do
     t.datetime "updated_at",  null: false
     t.string   "description", null: false
     t.uuid     "user_id",     null: false
+    t.uuid     "category_id", null: false
   end
 
+  add_index "article_of_clothings", ["category_id"], name: "index_article_of_clothings_on_category_id", using: :btree
   add_index "article_of_clothings", ["user_id"], name: "index_article_of_clothings_on_user_id", using: :btree
 
   create_table "categories", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -102,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160928213724) do
     t.datetime "avatar_updated_at"
   end
 
+  add_foreign_key "article_of_clothings", "categories"
   add_foreign_key "article_of_clothings", "users"
   add_foreign_key "outfit_article_of_clothings", "article_of_clothings"
   add_foreign_key "outfit_article_of_clothings", "outfits"
