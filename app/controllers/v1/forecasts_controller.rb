@@ -1,6 +1,7 @@
 class V1::ForecastsController < ApplicationController
   def create
     forecast = WeatherForecast.get_weather(latitude: params[:latitude],longitude: params[:longitude])
+    current_forecast = forecast.currently
     hourly_forecasts = forecast.hourly.data
     morning_forecast = hourly_forecasts[7]
     afternoon_forecast = hourly_forecasts[15]
@@ -14,7 +15,7 @@ class V1::ForecastsController < ApplicationController
     when "evening"
       render :json => {:evening_forecast => evening_forecast}
     else
-      render :json => {:hourly_forecasts => hourly_forecasts}
+      render :json => {:current_forecast => current_forecast}
     end
   end
 end
