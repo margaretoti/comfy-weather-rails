@@ -1,5 +1,5 @@
 class WeatherForecast
-  PERIODS = {morning: 7, afternoon: 15, evening: 19, current: nil}
+  PERIODS = { morning: 7, afternoon: 15, evening: 19, current: nil }
   attr_reader :latitude, :longitude, :period
 
   def initialize(latitude:, longitude:, period:)
