@@ -34,7 +34,7 @@ class WeatherForecast
 
   def get_weather
     if period.present? && (forecast_intervals.key? period.to_sym)
-      Hash[period.to_sym, forecast_intervals[period.to_sym]]
+      forecast_intervals.select { |k,v| k == period.to_sym }
     else
       forecast_intervals.except(:current)
     end
