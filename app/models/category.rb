@@ -1,10 +1,13 @@
 class Category < ActiveRecord::Base
   has_many :article_of_clothings
 
-  has_attached_file :icon
+  has_attached_file :selected_icon
+  has_attached_file :unselected_icon
 
-  validates_attachment :icon, content_type: { content_type: ['image/png', 'image/svg'] }
+  validates_attachment :selected_icon, content_type: { content_type: ['image/png', 'image/svg'] }
+  validates_attachment :unselected_icon, content_type: { content_type: ['image/png', 'image/svg'] }
 
   validates :name, presence: true
-  validates :icon, presence: true
+  validates :selected_icon, presence: true
+  validates :unselected_icon, presence: true
 end

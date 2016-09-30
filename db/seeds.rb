@@ -40,6 +40,6 @@ category_data = [ [name: 'Blouse', icon: 'blouse'],
                 ]
 
 category_data.each do |category_name|
-  Category.create!(name: name, icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{icon}+'.png'"), 'image/png'),
-                                                         icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{icon}+'.png'"), 'image/png') )
+  Category.create!(name: name, icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{icon}+'.svg'"), 'image/svg'),
+                                                         icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{icon}+'.svg'"), 'image/svg') )
 end
