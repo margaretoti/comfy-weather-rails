@@ -11,10 +11,10 @@ describe 'Forecasts endpoints' do
       post(forecasts_url, params, accept_headers)
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_path('forecast/temperature')
-      expect(response.body).to have_json_path('forecast/apparentTemperature')
-      expect(response.body).to have_json_path('forecast/humidity')
-      expect(response.body).to have_json_path('forecast/windSpeed')
+      expect(response.body).to have_json_path('morning/temperature')
+      expect(response.body).to have_json_path('morning/apparentTemperature')
+      expect(response.body).to have_json_path('morning/humidity')
+      expect(response.body).to have_json_path('morning/windSpeed')
     end
 
     it 'returns JSON for afternoon forecast' do
@@ -25,10 +25,10 @@ describe 'Forecasts endpoints' do
       post(forecasts_url, params, accept_headers)
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_path('forecast/temperature')
-      expect(response.body).to have_json_path('forecast/apparentTemperature')
-      expect(response.body).to have_json_path('forecast/humidity')
-      expect(response.body).to have_json_path('forecast/windSpeed')
+      expect(response.body).to have_json_path('afternoon/temperature')
+      expect(response.body).to have_json_path('afternoon/apparentTemperature')
+      expect(response.body).to have_json_path('afternoon/humidity')
+      expect(response.body).to have_json_path('afternoon/windSpeed')
     end
 
     it 'returns JSON for evening forecast' do
@@ -39,13 +39,13 @@ describe 'Forecasts endpoints' do
       post(forecasts_url, params, accept_headers)
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_path('forecast/temperature')
-      expect(response.body).to have_json_path('forecast/apparentTemperature')
-      expect(response.body).to have_json_path('forecast/humidity')
-      expect(response.body).to have_json_path('forecast/windSpeed')
+      expect(response.body).to have_json_path('evening/temperature')
+      expect(response.body).to have_json_path('evening/apparentTemperature')
+      expect(response.body).to have_json_path('evening/humidity')
+      expect(response.body).to have_json_path('evening/windSpeed')
     end
 
-    it 'returns JSON for current forecast if no period param provided' do
+    it 'returns JSON for all three periods\' forecast if no period param provided' do
       stub_weather_api_request
 
       post(
@@ -55,10 +55,9 @@ describe 'Forecasts endpoints' do
       )
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_path('forecast/temperature')
-      expect(response.body).to have_json_path('forecast/apparentTemperature')
-      expect(response.body).to have_json_path('forecast/humidity')
-      expect(response.body).to have_json_path('forecast/windSpeed')
+      expect(response.body).to have_json_path('morning/temperature')
+      expect(response.body).to have_json_path('afternoon/apparentTemperature')
+      expect(response.body).to have_json_path('evening/humidity')
     end
   end
 end
