@@ -7,6 +7,7 @@ gem "autoprefixer-rails"
 gem 'aws-sdk', '~> 2.3'
 gem "delayed_job_active_record"
 gem "flutie"
+gem 'forecast_io'
 gem "honeybadger"
 gem "jquery-rails"
 gem "koala"
