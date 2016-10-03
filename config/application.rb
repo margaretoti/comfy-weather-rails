@@ -23,5 +23,8 @@ module ComfyWeatherServer
     config.action_controller.action_on_unpermitted_parameters = :raise
     config.active_record.raise_in_transactional_callbacks = true
     config.active_job.queue_adapter = :delayed_job
+    config.middleware.use Warden::Manager do |manager|
+      manager.failure_app = lambda { |e| [ 401, {'Content-Type' => 'application/json'}, ['Authorization Failed'] ] }
+    end
   end
 end

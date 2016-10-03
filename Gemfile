@@ -30,6 +30,7 @@ gem "suspenders"
 gem "title"
 gem "uglifier"
 gem "versionist"
+gem "warden"
 
 group :development do
   gem "quiet_assets"

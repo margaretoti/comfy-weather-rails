@@ -8,7 +8,7 @@ class V1::UsersController < ApplicationController
     @graph = Koala::Facebook::API.new(params[:access_token])
     user_data = @graph.get_object("me?fields=name,picture,id")
     user = User.populating_from_koala(user_data)
-    session[:user_id] = user.id
+    user.reset_token!
     render json: user
   end
 
@@ -23,7 +23,7 @@ class V1::UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email, :gender, :preferred_time,
-    :weather_perception, :avatar)
+    params.require(:user).permit(:name, :email, :gender, :preferred_time,
+    :weather_perception, :avatar, :auth_token, :auth_expires_at)
   end
 end

@@ -13,4 +13,43 @@ describe User do
                   allowing('image/png', 'image/gif').
                   rejecting('text/plain', 'text/xml') }
   end
+
+  describe '.for_authentication' do
+    it 'returns a user with that token' do
+      user = create(:user)
+
+      user_from_token = User.for_auth(user.auth_token)
+
+      expect(user_from_token).to eq(user)
+    end
+
+    it 'will not return a user if their token is expired' do
+      user = create(:user, auth_expires_at: 1.day.ago)
+
+      user_from_token = User.for_auth(user.auth_token)
+
+      expect(user_from_token).to be_nil
+    end
+  end
+
+  describe '.reset_token!' do
+    it 'creates a new unique token for that user' do
+      user = create(:user)
+      token = user.auth_token
+
+      user.reset_token!
+
+      expect(user.auth_token).not_to eq(token)
+    end
+
+    it 'updates the expiration date' do
+      user = create(:user, auth_expires_at: Time.current)
+
+      user.reset_token!
+      user.reload
+
+      expect(user.auth_expires_at).
+        to be_within(1).of(60.days.from_now)
+    end
+  end
 end
