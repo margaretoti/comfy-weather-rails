@@ -9,6 +9,7 @@ class V1::UsersController < ApplicationController
     user_data = @graph.get_object("me?fields=name,picture,id")
     user = User.populating_from_koala(user_data)
     user.reset_token!
+    session[:user_id] = user.id
     render json: user
   end
 
@@ -23,7 +24,9 @@ class V1::UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :gender, :preferred_time,
-    :weather_perception, :avatar, :auth_token, :auth_expires_at)
+    params.
+      require(:user).
+      permit(:name, :email, :gender, :preferred_time, :weather_perception,
+             :avatar, :auth_token, :auth_expires_at)
   end
 end

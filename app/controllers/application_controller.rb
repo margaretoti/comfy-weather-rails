@@ -13,4 +13,9 @@ class ApplicationController < ActionController::Base
   rescue_from Koala::Facebook::AuthenticationError do |exception|
     render json: { errors: exception.message }, status: :bad_request
   end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
 end
