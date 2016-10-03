@@ -40,9 +40,8 @@ category_data = [ { name: 'Blouse', icon: 'blouse' },
 
 category_data.each do |category|
   puts "Seeding category: #{category[:name]}"
-  article_category = Category.find_or_create_by(name: category[:name])
-  article_category.update!(name: category[:name],
-                            selected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{category[:icon] + '.svg'}"), 'image/svg'),
+  article_category = Category.find_or_initialize_by(name: category[:name])
+  article_category.update!(selected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{category[:icon] + '.svg'}"), 'image/svg'),
                             unselected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{category[:icon] + '.svg'}"), 'image/svg')
                           )
 end
