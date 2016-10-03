@@ -22,9 +22,25 @@ ActiveRecord::Schema.define(version: 20160928213724) do
     t.datetime "updated_at",  null: false
     t.string   "description", null: false
     t.uuid     "user_id",     null: false
+    t.uuid     "category_id", null: false
   end
 
+  add_index "article_of_clothings", ["category_id"], name: "index_article_of_clothings_on_category_id", using: :btree
   add_index "article_of_clothings", ["user_id"], name: "index_article_of_clothings_on_user_id", using: :btree
+
+  create_table "categories", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "name",                         null: false
+    t.string   "unselected_icon_file_name",    null: false
+    t.string   "unselected_icon_content_type", null: false
+    t.integer  "unselected_icon_file_size",    null: false
+    t.datetime "unselected_icon_updated_at",   null: false
+    t.string   "selected_icon_file_name",      null: false
+    t.string   "selected_icon_content_type",   null: false
+    t.integer  "selected_icon_file_size",      null: false
+    t.datetime "selected_icon_updated_at",     null: false
+  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -92,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160928213724) do
     t.datetime "avatar_updated_at"
   end
 
+  add_foreign_key "article_of_clothings", "categories"
   add_foreign_key "article_of_clothings", "users"
   add_foreign_key "outfit_article_of_clothings", "article_of_clothings"
   add_foreign_key "outfit_article_of_clothings", "outfits"

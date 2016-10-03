@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     resources :authentications, only: [:create, :destroy]
     resources :article_of_clothings, only: :index
     resources :forecasts, only: :create
+    resources :categories, only: :index
   end
 end
