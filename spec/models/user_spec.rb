@@ -14,7 +14,7 @@ describe User do
                   rejecting('text/plain', 'text/xml') }
   end
 
-  describe '.for_authentication' do
+  describe 'Authentication' do
     it 'returns a user with that token' do
       user = create(:user)
 
@@ -32,7 +32,7 @@ describe User do
     end
   end
 
-  describe '.reset_token!' do
+  describe 'Reset token upon sign up/in' do
     it 'creates a new unique token for that user' do
       user = create(:user)
       token = user.auth_token

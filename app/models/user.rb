@@ -19,10 +19,7 @@ class User < ActiveRecord::Base
       user.provider = "facebook"
       user.uid = graph["id"]
       user.name = graph["name"]
-      user.auth_token = AuthToken.generate
-      user.auth_expires_at = AuthToken.expires_at
       user.avatar = "https://graph.facebook.com/#{graph["id"]}/picture"
-      user.save!
     end
   end
 

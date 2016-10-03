@@ -23,7 +23,6 @@ class AuthToken
     params = { auth_token: generate,
                auth_expires_at: expires_at }
     user.update(params)
-    user
   end
 
   private
