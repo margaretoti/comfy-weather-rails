@@ -11,7 +11,7 @@ FactoryGirl.define do
     name "MyString"
     auth_token { SecureRandom.hex(20).encode('UTF-8') }
     auth_expires_at 60.days.from_now
-    avatar { fixture_file_upload(Rails.root.join('spec', 'photos', 'test.png'),
+    avatar { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'test.png'),
        'image/png') }
   end
 end
