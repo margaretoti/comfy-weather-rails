@@ -29,10 +29,6 @@ class User < ActiveRecord::Base
   end
 
   def reset_token!
-    loop do
-      if AuthToken.reset(user: self)
-        break
-      end
-    end
+    AuthToken.reset(user: self)
   end
 end
