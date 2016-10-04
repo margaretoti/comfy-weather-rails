@@ -1,5 +1,5 @@
 class WeatherForecast
-  PERIODS = { morning: 7, afternoon: 15, evening: 19, current: nil }
+  PERIODS = { morning: 7, afternoon: 15, evening: 19, daily: nil }
   attr_reader :latitude, :longitude, :period
 
   def initialize(latitude:, longitude:, period:)
@@ -22,7 +22,7 @@ class WeatherForecast
       if value.present?
         forecast_intervals[key] = hourly_forecasts[value]
       else
-        forecast_intervals[key] = forecast.currently
+        forecast_intervals[key] = forecast.daily.data[0]
       end
     end
     return forecast_intervals
@@ -36,7 +36,7 @@ class WeatherForecast
     if period.present? && (forecast_intervals.key? period.to_sym)
       forecast_intervals.select { |k,v| k == period.to_sym }
     else
-      forecast_intervals.except(:current)
+      forecast_intervals.except(:daily)
     end
   end
 end

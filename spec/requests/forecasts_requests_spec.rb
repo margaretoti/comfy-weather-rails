@@ -45,6 +45,20 @@ describe 'Forecasts endpoints' do
       expect(response.body).to have_json_path('evening/windSpeed')
     end
 
+    it 'returns JSON for daily forecast' do
+      stub_weather_api_request
+
+      params = {latitude: 42, longitude: -71, period: "daily"}.to_json
+
+      post(forecasts_url, params, accept_headers)
+
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('daily/sunriseTime')
+      expect(response.body).to have_json_path('daily/sunsetTime')
+      expect(response.body).to have_json_path('daily/temperatureMin')
+      expect(response.body).to have_json_path('daily/temperatureMax')
+    end
+
     it 'returns JSON for all three periods\' forecast if no period param provided' do
       stub_weather_api_request
 
