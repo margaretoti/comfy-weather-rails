@@ -6,6 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# require ActionDispatch::TestProcess
+
 category_data = [ { name: 'Blouse', icon: 'blouse' },
                   { name: 'Button-down', icon: 'button_down' },
                   { name: 'Polo', icon: 'polo' },
@@ -41,7 +43,22 @@ category_data = [ { name: 'Blouse', icon: 'blouse' },
 category_data.each do |category|
   puts "Seeding category: #{category[:name]}"
   article_category = Category.find_or_initialize_by(name: category[:name])
-  article_category.update!(selected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{category[:icon] + '.svg'}"), 'image/svg'),
-                            unselected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{category[:icon] + '.svg'}"), 'image/svg')
+  puts "About to update: #{category[:name]}"
+  article_category.update!(selected_icon: File.open("lib/assets/selected_icons/#{category[:icon] + '.svg'}", 'rb'),
+                            unselected_icon: File.open("lib/assets/unselected_icons/#{category[:icon] + '.svg'}", 'rb')
                           )
+
+  # path1 = fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{category[:icon] + '.svg'}"))
+  # puts "path1 using fixture_file_upload: #{path1}"
+  # type1 = MIME::Types.type_for("lib/assets/unselected_icons/#{category[:icon] + '.svg'}").first.content_type
+  # puts "path1 content type is: #{type1}"
+  #
+  # path2 = File.open("lib/assets/unselected_icons/#{category[:icon] + '.svg'}", 'rb')
+  # puts "path2: #{path2}"
+  # type2 = MIME::Types.type_for("lib/assets/unselected_icons/#{category[:icon] + '.svg'}").first.content_type
+  # puts "path2 content type is: #{type2}"
+
+  # article_category.update!(selected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'selected_icons', "#{category[:icon] + '.svg'}"), 'image/svg'),
+  #                           unselected_icon: fixture_file_upload(Rails.root.join('lib', 'assets', 'unselected_icons', "#{category[:icon] + '.svg'}"), 'image/svg')
+  #                         )
 end
