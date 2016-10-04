@@ -38,4 +38,33 @@ describe 'Users endpoints' do
       expect have_http_status :bad_request
     end
   end
+
+  describe 'PUT /users/id' do
+    context 'with valid attributes' do
+      it 'returns JSON for a user' do
+        current_user = create(:user)
+
+        put(user_url(current_user), user_attributes('test@gmail.com'), authorization_headers(current_user))
+
+        current_user.reload
+
+        expect(response).to have_http_status :ok
+        expect(current_user.name).to eq parse_json(user_attributes('test@gmail.com'))['user']['name']
+      end
+    end
+  end
+
+  private
+
+  def user_attributes(email)
+    { user:
+      {
+          email: email,
+          gender: 1,
+          preferred_time: Time.now,
+          weather_perception: 1,
+          name: "MyString"
+      }
+    }.to_json
+  end
 end

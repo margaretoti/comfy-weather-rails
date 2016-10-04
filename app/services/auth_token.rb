@@ -15,6 +15,16 @@ class AuthToken
     token_duration.days.from_now
   end
 
+  def self.reset(user:)
+    new.reset(user: user)
+  end
+
+  def reset(user:)
+    params = { auth_token: generate,
+               auth_expires_at: expires_at }
+    user.update(params)
+  end
+
   private
 
   def token_duration

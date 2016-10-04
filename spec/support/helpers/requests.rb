@@ -8,5 +8,21 @@ module Helpers
       { 'Accept' => accept_header,
         'Content-Type' => 'application/json' }
     end
+
+    def token(user = nil)
+      if user
+        user.auth_token
+      else
+        create(:user).auth_token
+      end
+    end
+
+    def authorization_header(user = nil)
+      "Token token=#{token(user)}"
+    end
+
+    def authorization_headers(user = nil)
+      accept_headers.merge('Authorization' => authorization_header(user))
+    end
   end
 end

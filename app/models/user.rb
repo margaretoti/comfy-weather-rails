@@ -19,10 +19,20 @@ class User < ActiveRecord::Base
       user.provider = "facebook"
       user.uid = graph["id"]
       user.name = graph["name"]
-      user.auth_token = AuthToken.generate
-      user.auth_expires_at = AuthToken.expires_at
       user.avatar = "https://graph.facebook.com/#{graph["id"]}/picture"
-      user.save!
+    end
+  end
+
+  def self.for_auth(token)
+    where(auth_token: token).
+      where('auth_expires_at > ?', Time.now).first
+  end
+
+  def reset_token!
+    loop do
+      if AuthToken.reset(user: self)
+        break
+      end
     end
   end
 end
