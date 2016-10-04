@@ -110,6 +110,39 @@ module ExternalRequests
            ozone: 279.42
         }
        ]
+     },
+     daily:
+     {
+       data:
+       [
+         {
+          time: 1475640000,
+          summary: "Partly cloudy until evening.",
+          icon: "partly-cloudy-day",
+          sunriseTime: 1475664414,
+          sunsetTime: 1475705998,
+          moonPhase: 0.14,
+          precipIntensity: 0,
+          precipIntensityMax: 0,
+          precipProbability: 0,
+          temperatureMin: 49.7,
+          temperatureMinTime: 1475722800,
+          temperatureMax: 62.39,
+          temperatureMaxTime: 1475694000,
+          apparentTemperatureMin: 48.84,
+          apparentTemperatureMinTime: 1475722800,
+          apparentTemperatureMax: 62.39,
+          apparentTemperatureMaxTime: 1475694000,
+          dewPoint: 49.84,
+          humidity: 0.82,
+          windSpeed: 8.26,
+          windBearing: 15,
+          visibility: 9.55,
+          cloudCover: 0.54,
+          pressure: 1026.54,
+          ozone: 277.02
+        }
+       ]
      }
    }.to_json
   end
