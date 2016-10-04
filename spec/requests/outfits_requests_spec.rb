@@ -20,6 +20,8 @@ describe 'Outfits endpoints' do
       user = create(:user)
       outfit_params = {
         outfit: {
+          latitude: 37.792,
+          longitude: -122.393,
           notes: "comfy",
           photo: "data:image/jpg;base64,#{base64_string}"
         }
@@ -30,6 +32,8 @@ describe 'Outfits endpoints' do
       expect(response.body).to have_json_path('outfit/id')
       expect(response.body).to have_json_path('outfit/created_at')
       expect(response.body).to have_json_path('outfit/updated_at')
+      expect(response.body).to have_json_path('outfit/latitude')
+      expect(response.body).to have_json_path('outfit/longitude')
       expect(response.body).to have_json_path('outfit/photo_url')
       expect(response.body).to have_json_path('outfit/notes')
       expect(response.body).to have_json_path('outfit/is_public')
