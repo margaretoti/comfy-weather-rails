@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004191120) do
+ActiveRecord::Schema.define(version: 20161004193017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,17 @@ ActiveRecord::Schema.define(version: 20161004191120) do
   add_index "outfit_article_of_clothings", ["article_of_clothing_id"], name: "index_outfit_article_of_clothings_on_article_of_clothing_id", using: :btree
   add_index "outfit_article_of_clothings", ["outfit_id"], name: "index_outfit_article_of_clothings_on_outfit_id", using: :btree
 
+  create_table "outfit_weather_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "rating",          null: false
+    t.uuid     "outfit_id",       null: false
+    t.uuid     "weather_type_id", null: false
+  end
+
+  add_index "outfit_weather_types", ["outfit_id"], name: "index_outfit_weather_types_on_outfit_id", using: :btree
+  add_index "outfit_weather_types", ["weather_type_id"], name: "index_outfit_weather_types_on_weather_type_id", using: :btree
+
   create_table "outfits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
@@ -102,9 +113,18 @@ ActiveRecord::Schema.define(version: 20161004191120) do
     t.datetime "avatar_updated_at"
   end
 
+  create_table "weather_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime  "created_at",  null: false
+    t.datetime  "updated_at",  null: false
+    t.int4range "temp_range",  null: false
+    t.integer   "precip_type"
+  end
+
   add_foreign_key "article_of_clothings", "categories"
   add_foreign_key "article_of_clothings", "users"
   add_foreign_key "outfit_article_of_clothings", "article_of_clothings"
   add_foreign_key "outfit_article_of_clothings", "outfits"
+  add_foreign_key "outfit_weather_types", "outfits"
+  add_foreign_key "outfit_weather_types", "weather_types"
   add_foreign_key "outfits", "users"
 end

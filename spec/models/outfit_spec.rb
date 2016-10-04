@@ -12,5 +12,7 @@ describe Outfit do
     it { should belong_to(:user) }
     it { should have_many(:outfit_article_of_clothings) }
     it { should have_many(:article_of_clothings).through(:outfit_article_of_clothings) }
+    it { should have_many(:outfit_weather_types) }
+    it { should have_many(:weather_types).through(:outfit_weather_types) }
   end
 end
