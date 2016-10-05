@@ -4,15 +4,18 @@ Rails.application.routes.draw do
               name: 'Accept',
               value: 'application/vnd.comfy-weather-server.com; version=1' },
               defaults: { format: :json }) do
-    resources :users, only: [:index, :create]
     resources :outfits, only: :index
+    resources :users, only: [:index, :show, :create]
+    resources :outfits, only: [:index, :create]
     resources :authentications, only: [:create, :destroy]
     resources :article_of_clothings, only: :index
     resources :forecasts, only: :create
     resources :categories, only: :index
+    resources :weather_types, only: [:index, :show]
     constraints(Authenticated.new) do
       resources :users, only: [:update]
       resources :outfits, only: [:create]
+      resources :weather_types, only: [:create, :update]
     end
   end
 end
