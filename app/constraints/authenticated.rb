@@ -4,3 +4,6 @@ class Authenticated
     warden && warden.authenticate!(:token_authentication_strategy)
   end
 end
+
+Warden::Strategies.add(:token_authentication_strategy,
+                        TokenAuthenticationStrategy)

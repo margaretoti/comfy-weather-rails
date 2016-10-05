@@ -6,14 +6,13 @@ class V1::OutfitsController < ApplicationController
   end
 
   def create
-    outfit = Outfit.create(outfit_params)
-    outfit.save!
+    outfit = Outfit.create!(outfit_params)
 
     render json: outfit
   end
 
   private
   def outfit_params
-    params.require(:outfit).permit(:rating, :notes, :photo, :is_public)
+    params.require(:outfit).permit(:notes, :photo, :is_public).merge(user: current_user)
   end
 end

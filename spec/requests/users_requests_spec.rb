@@ -18,14 +18,14 @@ describe 'Users endpoints' do
   end
 
   describe 'POST /users' do
-    it 'With a valid access token' do
-      stub_valid_facebook_me_request
-      stub_facebook_me_picture_request
-
-      post(users_url, {access_token: ''}.to_json, accept_headers)
-
-      expect(User.count).to eq 1
-      expect have_http_status :created
+    context 'With a valid access token' do
+      it 'creates and returns a user' do
+        stub_valid_facebook_me_request
+        stub_facebook_me_picture_request
+        post(users_url, {access_token: ''}.to_json, accept_headers)
+        expect(User.count).to eq 1
+        expect have_http_status :created
+      end
     end
 
     it 'with an invalid access token' do

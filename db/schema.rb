@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928213724) do
+ActiveRecord::Schema.define(version: 20161004191120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,13 +58,6 @@ ActiveRecord::Schema.define(version: 20160928213724) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "forecasts", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "outfit_article_of_clothings", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -78,7 +71,6 @@ ActiveRecord::Schema.define(version: 20160928213724) do
   create_table "outfits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.integer  "rating",             null: false
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
