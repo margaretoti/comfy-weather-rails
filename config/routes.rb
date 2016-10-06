@@ -6,7 +6,7 @@ Rails.application.routes.draw do
               defaults: { format: :json }) do
     resources :outfits, only: :index
     resources :users, only: [:index, :show, :create]
-    resources :outfits, only: [:index, :create]
+    resources :outfits, only: [:index]
     resources :authentications, only: [:create, :destroy]
     resources :article_of_clothings, only: :index
     resources :forecasts, only: :create
