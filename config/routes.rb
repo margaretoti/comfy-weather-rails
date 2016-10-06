@@ -11,11 +11,10 @@ Rails.application.routes.draw do
     resources :article_of_clothings, only: :index
     resources :forecasts, only: :create
     resources :categories, only: :index
-    resources :weather_types, only: [:index, :show]
+    resources :weather_types, only: [:index, :create, :update]
     constraints(Authenticated.new) do
       resources :users, only: [:update]
       resources :outfits, only: [:create]
-      resources :weather_types, only: [:create, :update]
     end
   end
 end

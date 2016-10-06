@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :weather_type do
-    temp_range ""
+    sequence(:temp_range) {|n| n..10}
     precip_type 1
   end
 end
