@@ -78,6 +78,8 @@ ActiveRecord::Schema.define(version: 20161004191120) do
     t.text     "notes"
     t.boolean  "is_public"
     t.uuid     "user_id"
+    t.decimal  "longitude",          null: false
+    t.decimal  "latitude",           null: false
   end
 
   add_index "outfits", ["user_id"], name: "index_outfits_on_user_id", using: :btree

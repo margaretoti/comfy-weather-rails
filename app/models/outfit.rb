@@ -10,5 +10,7 @@ class Outfit < ActiveRecord::Base
   content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'] }
 
   validates :user, presence: true
+  validates :longitude, presence: true
+  validates :latitude, presence: true
   validates :notes, length: { maximum: 250 }
 end

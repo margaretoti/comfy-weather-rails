@@ -13,6 +13,6 @@ class V1::OutfitsController < ApplicationController
 
   private
   def outfit_params
-    params.require(:outfit).permit(:notes, :photo, :is_public).merge(user: current_user)
+    params.require(:outfit).permit(:latitude, :longitude, :notes, :photo, :is_public).merge(user: current_user)
   end
 end
