@@ -16,14 +16,32 @@ describe 'ArticlesOfClothing endpoints' do
       articles = create_list(:article_of_clothing, 3)
 
       get(article_of_clothings_url, {}, accept_headers)
-      binding.pry
+
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(3).at_path('article_of_clothings')
     end
   end
 
-#   describe 'POST /articles_of_clothing' do
-#     it '' do
-#     end
-#   end
+  describe 'POST /article_of_clothings' do
+    it 'returns 200 status and the JSON for the articles of clothing' do
+
+      user = create(:user)
+      category = create(:category)
+      binding.pry
+      article_of_clothing_params = {
+        article_of_clothing: {
+          description: "a blue item",
+          category_id: category.id
+        }
+      }
+
+      post(article_of_clothings_url, article_of_clothing_params.to_json, authorization_headers(user))
+
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('article_of_clothing/id')
+      expect(response.body).to have_json_path('article_of_clothing/created_at')
+      expect(response.body).to have_json_path('article_of_clothing/updated_at')
+      expect(response.body).to have_json_path('article_of_clothing/description')
+    end
+  end
 end
