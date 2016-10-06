@@ -27,7 +27,6 @@ describe 'ArticlesOfClothing endpoints' do
 
       user = create(:user)
       category = create(:category)
-      binding.pry
       article_of_clothing_params = {
         article_of_clothing: {
           description: "a blue item",
