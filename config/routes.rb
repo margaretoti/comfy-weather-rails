@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :create]
     resources :outfits, only: [:index]
     resources :authentications, only: [:create, :destroy]
-    resources :article_of_clothings, only: :index
+    resources :article_of_clothings, only: [:index, :create]
     resources :forecasts, only: :create
     resources :categories, only: :index
     resources :weather_types, only: [:index, :create, :update]
