@@ -23,4 +23,5 @@ describe ArticleOfClothing do
         expect(article.frequency).to eq(3)
       end
     end
+  end
 end
