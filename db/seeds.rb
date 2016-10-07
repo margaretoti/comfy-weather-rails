@@ -38,3 +38,8 @@ category_data.each do |category|
                             unselected_icon: File.open("lib/assets/unselected_icons/#{category[:icon] + '.svg'}", 'rb')
                           )
 end
+
+(0..95).step(5) do |n|
+  puts "Seeding weather_type - temp_range: #{n..(n+4)}"
+  WeatherType.create(temp_range: n..(n + 4))
+end
