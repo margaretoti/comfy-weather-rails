@@ -32,13 +32,13 @@ class V1::WeatherTypesController < ApplicationController
   def weather_type_params
     params.
       require(:weather_type).
-      permit(:low, :high, :precip_type)
+      permit(:temp_low, :temp_high, :precip_type)
   end
 
   def weather_type_attributes
     attrs = weather_type_params
-    low = attrs.delete(:low)
-    high = attrs.delete(:high)
+    low = attrs.delete(:temp_low)
+    high = attrs.delete(:temp_high)
     temp_range = (low..high)
 
     attrs.merge(temp_range: temp_range)
