@@ -48,6 +48,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
   gem "railroady"
+  gem "rails-erd"
   gem "rspec-rails", "~> 3.4.0"
 end
 

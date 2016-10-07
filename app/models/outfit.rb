@@ -3,6 +3,8 @@ class Outfit < ActiveRecord::Base
 
   has_many :outfit_article_of_clothings
   has_many :article_of_clothings, through: :outfit_article_of_clothings
+  has_many :outfit_weather_types
+  has_many :weather_types, through: :outfit_weather_types
 
   has_attached_file :photo
 

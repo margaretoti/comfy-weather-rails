@@ -11,9 +11,8 @@ module ExternalRequests
   end
 
   def stub_facebook_me_picture_request
-    stub_request(:get, "https://graph.facebook.com/7a0ab043-fc5f-48bf-8120-e1519134c097/picture").
-    with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-    to_return(status: 200, body: "", headers: {})
+    stub_request(:get, /https:\/\/graph.facebook.com\/\d+\/picture/).
+    to_return(status: 200, body: avatar_data, headers: {'Content-Type': 'image/jpeg'})
   end
 
   def stub_valid_facebook_me_request
@@ -148,23 +147,33 @@ module ExternalRequests
   end
 
   def facebook_data
+      {
+        name: "Harold Sipe",
+        picture:
+        {
+          data:
+          {
+            is_silhouette: false,
+            url:
+            "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14333796_" +
+            "137721806685777_5915056444051503896_n.jpg?" +
+            "oh=e502f2c18ef6721d65697b4b52bc8969&oe=58758B74"
+          }
+        },
+        id: "131590030632288"
+      }.to_json
+  end
+
+  def avatar_data
     {
-      email: nil,
-      gender: nil,
-      preferred_time: nil,
-      weather_perception: 1,
-      provider: "facebook",
-      uid: "131590030632288",
-      name: "Harold Sipe",
-      auth_token: "8184d823868ad97c68cff8bdca93dc3a0dcb3c9c",
-      auth_expires_at: "2016-09-16 09:19:45",
-      created_at: "2016-09-16 09:19:45",
-      updated_at: "2016-09-16 09:19:45",
-      id: "7a0ab043-fc5f-48bf-8120-e1519134c097",
-      avatar_file_name: "Harold Sipe_avatar",
-      avatar_content_type: "image/jpg",
-      avatar_file_size: 1418,
-      avatar_updated_at: "2016-09-16 09:19:45"
+      data:
+      {
+        is_silhouette: false,
+        url:
+        "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14333796_" +
+        "137721806685777_5915056444051503896_n.jpg?" +
+        "oh=e502f2c18ef6721d65697b4b52bc8969&oe=58758B74"
+      }
     }.to_json
   end
 
