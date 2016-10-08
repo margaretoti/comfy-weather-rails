@@ -5,7 +5,9 @@ describe 'ArticlesOfClothing endpoints' do
     it 'returns the JSON for the existing articles of clothing' do
       user = create(:user)
       articles = create_list(:article_of_clothing, 3, user: user)
+
       get(article_of_clothings_url, {}, authorization_headers(user))
+      
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(3).at_path('article_of_clothings')
     end
