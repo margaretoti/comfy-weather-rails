@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :outfits, only: [:index, :create, :update]
       match '/rating', to: 'outfits#update', via: [:patch]
       resources :article_of_clothings, only: [:index, :create]
+      resources :article_of_clothings, only: :index , param: :category_id
+      resources :article_of_clothings, only: :create
     end
   end
 end

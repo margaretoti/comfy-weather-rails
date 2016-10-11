@@ -1,6 +1,6 @@
 class V1::ArticleOfClothingsController < ApplicationController
   def index
-    articles = ArticleOfClothing.all
+    articles = ArticleOfClothing.where(category_id: params[:category_id])
 
     render json: articles
   end
