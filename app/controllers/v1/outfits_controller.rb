@@ -17,6 +17,15 @@ class V1::OutfitsController < ApplicationController
     outfit_weather_type = outfit.outfit_weather_types.last
     outfit_weather_type.update!(outfit_weather_type_params)
 
+    article_of_clothing_params.each do |article_of_clothing_id|
+      @article = ArticleOfClothing.find(article_of_clothing_id)
+      if (defined? @article) != nil
+        outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
+      else
+        puts "The article of clothing with id #{article_of_clothing_id} does not exist."
+      end
+    end
+
     render json: outfit
   end
 
@@ -33,5 +42,9 @@ class V1::OutfitsController < ApplicationController
     params
       .require(:outfit_weather_type)
       .permit(:rating)
+  end
+
+  def article_of_clothing_params
+    params.require(:article_of_clothings)
   end
 end

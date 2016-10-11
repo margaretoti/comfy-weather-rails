@@ -1,5 +1,5 @@
 class ArticleOfClothingSerializer < BaseSerializer
-  attributes :description, :frequency, :category
+  attributes :description, :frequency
 
   def frequency
     object.frequency

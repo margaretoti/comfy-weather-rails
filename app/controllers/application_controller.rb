@@ -6,10 +6,6 @@ class ApplicationController < ActionController::Base
     render json: { errors: exception.message }, status: :unprocessable_entity
   end
 
-  rescue_from ActiveRecord::RecordNotSaved do |exception|
-    render json: { errors: exception.message }, status: :unprocessable_entity
-  end
-
   rescue_from ActiveRecord::RecordInvalid do |exception|
     render json: { errors: exception.message }, status: :bad_request
   end
