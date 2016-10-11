@@ -1,5 +1,5 @@
 class OutfitSerializer < BaseSerializer
-  attributes :article_of_clothing_ids, :latitude, :longitude, :notes, :is_public, :photo_url,
+  attributes :article_of_clothing, :latitude, :longitude, :notes, :is_public, :photo_url,
              :outfit_weather_types, :weather_types
 
   def photo_url

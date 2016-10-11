@@ -19,11 +19,7 @@ class V1::OutfitsController < ApplicationController
 
     article_of_clothing_params.each do |article_of_clothing_id|
       @article = ArticleOfClothing.find(article_of_clothing_id)
-      if (defined? @article) != nil
-        outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
-      else
-        puts "The article of clothing with id #{article_of_clothing_id} does not exist."
-      end
+      outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
     end
 
     render json: outfit

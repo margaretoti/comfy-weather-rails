@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 describe 'ArticlesOfClothing endpoints' do
-  describe 'GET /article_of_clothings' do
+  describe 'GET /article_of_clothings?category_id=<category_id>' do
     it 'returns the JSON for the existing articles of clothing' do
       user = create(:user)
-      articles = create_list(:article_of_clothing, 3, user: user)
+      category = create(:category)
+      category_2 = create(:category)
 
-      get(article_of_clothings_url, {}, authorization_headers(user))
+      articles = create_list(:article_of_clothing, 3, user: user, category: category)
+      articles = create_list(:article_of_clothing, 3, user: user, category: category_2)
 
+      get(article_of_clothings_url, {category_id: category.id}, authorization_headers(user))
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(3).at_path('article_of_clothings')
     end
