@@ -18,7 +18,7 @@ describe 'WeatherType endpoints' do
   describe 'POST/weather_types/:id' do
     context 'create a new weather_type' do
       it 'returns 200 status and the JSON for an weather_type' do
-        weather_type_params = { weather_type: { low: 5, high: 10, precip_type: "snow" } }
+        weather_type_params = { weather_type: { temp_low: 5, temp_high: 10, precip_type: "snow" } }
 
         post(weather_types_url, weather_type_params.to_json, accept_headers)
 

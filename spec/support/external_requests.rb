@@ -1,6 +1,6 @@
 module ExternalRequests
   def stub_weather_api_request
-    stub_request(:get, "https://api.darksky.net/forecast/8c47b7928f3919eb493c0d90dd9dd4dc/42,-71").
+    stub_request(:get, "https://api.darksky.net/forecast/8c47b7928f3919eb493c0d90dd9dd4dc/42.36,-71.06").
     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.2'}).
     to_return(status: 200, body: weather_data, headers: {})
   end
@@ -28,7 +28,7 @@ module ExternalRequests
   def weather_data
     {
      latitude: 42,
-     longitude: 71,
+     longitude: -71,
      offset: 6,
      currently:
      {

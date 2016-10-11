@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe User do
-
   describe 'Validations' do
     it { should have_many(:outfits) }
     it { should validate_presence_of(:name) }
