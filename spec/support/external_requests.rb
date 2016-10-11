@@ -27,8 +27,8 @@ module ExternalRequests
 
   def weather_data
     {
-     latitude: 42,
-     longitude: -71,
+     latitude: 42.36,
+     longitude: -71.06,
      offset: 6,
      currently:
      {
