@@ -15,4 +15,8 @@ FactoryGirl.define do
   trait :sleet do
     precip_type 2
   end
+
+  trait :underflow do
+    temp_range -10...-5
+  end
 end

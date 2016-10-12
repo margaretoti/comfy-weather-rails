@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Outfits endpoints' do
-  describe 'GET/outfits' do
+  describe 'GET /outfits' do
     it 'returns JSON for outfits' do
 
       outfits = create_list(:outfit, 3)
@@ -13,7 +13,7 @@ describe 'Outfits endpoints' do
     end
   end
 
-  describe 'POST/outfits' do
+  describe 'POST /outfits' do
     context 'with valid outfit params' do
       it 'returns 200 status and the JSON for an outfit' do
         stub_weather_api_request
