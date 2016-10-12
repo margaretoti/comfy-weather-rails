@@ -71,7 +71,7 @@ describe 'ArticlesOfClothing endpoints' do
             category_id: invalid_id
           }
         }
-        binding.pry
+
         post(article_of_clothings_url, article_of_clothing_params.to_json, authorization_headers(user))
 
         expect(response).to have_http_status :unprocessable_entity
