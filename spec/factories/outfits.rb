@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :outfit do
     latitude 42.36
     longitude -71.06
-    notes "MyString"
+    notes 'MyString'
     is_public false
     user
 
@@ -14,8 +14,9 @@ FactoryGirl.define do
       after :create do |outfit, evaluator|
         outfit.weather_types << evaluator.weather_type
         outfit.save
-        outfit_weather_type = outfit.outfit_weather_types.
-        where(weather_type: evaluator.weather_type).first
+        outfit_weather_type = outfit.outfit_weather_types
+                                    .where(weather_type: evaluator.weather_type)
+                                    .first
         outfit_weather_type.save
       end
     end

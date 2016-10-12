@@ -6,11 +6,14 @@ describe 'WeatherType endpoints' do
       it 'returns JSON for weather_types' do
 
         weather_types = create_list(:weather_type, 3)
+        weather_types << create(:weather_type, :rain)
+        weather_types << create(:weather_type, :snow)
+        weather_types << create(:weather_type, :sleet)
 
         get(weather_types_url, {}, accept_headers)
 
         expect(response).to have_http_status :ok
-        expect(response.body).to have_json_size(3).at_path('weather_types')
+        expect(response.body).to have_json_size(6).at_path('weather_types')
       end
     end
   end

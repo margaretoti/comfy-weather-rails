@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     constraints(Authenticated.new) do
       resources :users, only: [:update]
       resources :outfits, only: [:create, :update]
-      match '/rating', to: 'outfits#update', via: [:put]
+      match '/rating', to: 'outfits#update', via: [:patch]
     end
   end
 end
