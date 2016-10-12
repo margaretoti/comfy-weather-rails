@@ -27,10 +27,11 @@ class V1::UsersController < ApplicationController
   end
 
   private
+
   def user_params
-    params.
-      require(:user).
-      permit(:name, :email, :gender, :preferred_time, :weather_perception,
-             :avatar, :auth_token, :auth_expires_at)
+    params
+      .require(:user)
+      .permit(:name, :email, :gender, :preferred_time, :weather_perception,
+              :avatar, :auth_token, :auth_expires_at)
   end
 end

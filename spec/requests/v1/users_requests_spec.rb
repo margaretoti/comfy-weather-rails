@@ -18,7 +18,7 @@ describe 'Users endpoints' do
   end
 
   describe 'POST /users' do
-    context 'With a valid access token' do
+    context 'with a valid access token' do
       it 'creates and returns a user' do
         stub_valid_facebook_me_request
         stub_facebook_me_picture_request
@@ -28,23 +28,25 @@ describe 'Users endpoints' do
       end
     end
 
-    it 'with an invalid access token' do
-      stub_invalid_facebook_me_request
-      stub_facebook_me_picture_request
+    context 'with an invalid access token' do
+      it 'renders a bad request http status' do
+        stub_invalid_facebook_me_request
+        stub_facebook_me_picture_request
 
-      post(users_url, {access_token: ''}.to_json, accept_headers)
+        post(users_url, {access_token: ''}.to_json, accept_headers)
 
-      expect(User.count).to eq 0
-      expect have_http_status :bad_request
+        expect(User.count).to eq 0
+        expect have_http_status :bad_request
+      end
     end
   end
 
-  describe 'PUT /users/id' do
+  describe 'PATCH /users/id' do
     context 'with valid attributes' do
       it 'returns JSON for a user' do
         current_user = create(:user)
 
-        put(user_url(current_user), user_attributes('test@gmail.com'), authorization_headers(current_user))
+        patch(user_url(current_user), user_attributes('test@gmail.com'), authorization_headers(current_user))
 
         current_user.reload
 

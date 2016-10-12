@@ -30,9 +30,9 @@ class V1::WeatherTypesController < ApplicationController
   private
 
   def weather_type_params
-    params.
-      require(:weather_type).
-      permit(:temp_low, :temp_high, :precip_type)
+    params
+      .require(:weather_type)
+      .permit(:temp_low, :temp_high, :precip_type)
   end
 
   def weather_type_attributes

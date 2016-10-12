@@ -15,4 +15,14 @@ class Outfit < ActiveRecord::Base
   validates :longitude, presence: true
   validates :latitude, presence: true
   validates :notes, length: { maximum: 250 }
+
+  def add_weather_type
+    weather = WeatherForecast.get_weather(latitude: latitude,
+                                          longitude: longitude,
+                                          period: 'afternoon')
+    weather_type = WeatherType.where('temp_range @> ?',
+                                     weather[:afternoon]['apparentTemperature'].round)
+                              .first
+    weather_types << weather_type
+  end
 end

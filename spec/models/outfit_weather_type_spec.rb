@@ -9,6 +9,5 @@ describe OutfitWeatherType do
   describe 'validationss' do
     it { should validate_presence_of(:outfit) }
     it { should validate_presence_of(:weather_type) }
-    it { should validate_presence_of(:rating) }
   end
 end
