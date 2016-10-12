@@ -1,8 +1,8 @@
 class Outfit < ActiveRecord::Base
   belongs_to :user
 
-  has_many :outfit_article_of_clothings
-  has_many :article_of_clothings, through: :outfit_article_of_clothings
+  has_many :outfit_article_of_clothings, dependent: :destroy
+  has_many :article_of_clothings, through: :outfit_article_of_clothings, dependent: :destroy
   has_many :outfit_weather_types
   has_many :weather_types, through: :outfit_weather_types
 
