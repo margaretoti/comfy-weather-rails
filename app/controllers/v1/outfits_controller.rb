@@ -5,6 +5,12 @@ class V1::OutfitsController < ApplicationController
     render json: outfits
   end
 
+  def show
+    outfit = Outfit.find(params[:id])
+
+    render json: outfit
+  end
+
   def create
     outfit = Outfit.create!(outfit_params)
     outfit.add_weather_type
