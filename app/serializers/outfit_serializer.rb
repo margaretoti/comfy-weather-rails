@@ -12,7 +12,7 @@ class OutfitSerializer < BaseSerializer
 
   def weather
     ForecastIO
-      .forecast(object.latitude, object.longitude, time: object.updated_at.to_i)
+      .forecast(object.latitude, object.longitude, time: object.created_at.to_i)
       .hourly.data[AFTERNOON_HOUR]
   end
 end

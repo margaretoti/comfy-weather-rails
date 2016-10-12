@@ -9,7 +9,7 @@ class WeatherForecast
   end
 
   def forecast
-    @forecast ||= ForecastIO.forecast(latitude, longitude)
+    @forecast ||= ForecastIO.forecast(latitude, longitude, time: Time.now.to_i)
   end
 
   def hourly_forecasts
