@@ -13,10 +13,32 @@ describe 'Outfits endpoints' do
     end
   end
 
+<<<<<<< HEAD
   describe 'POST /outfits' do
     context 'with valid outfit params' do
       it 'returns 200 status and the JSON for an outfit' do
         stub_weather_api_request
+=======
+  describe 'POST/outfits' do
+    it 'returns 200 status and the JSON for an outfit' do
+      base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
+
+      user = create(:user)
+      articles = create_list(:article_of_clothing, 3, user: user)
+
+      outfit_params =
+      {
+        outfit: {
+          latitude: 37.792,
+          longitude: -122.393,
+          notes: "comfy",
+          photo: "data:image/jpg;base64,#{base64_string}",
+        },
+        article_of_clothings: articles.map(&:id)
+      }
+
+      post(outfits_url, outfit_params.to_json, authorization_headers(user))
+>>>>>>> 4516190... added failure state handling
 
         weather_type = create(:weather_type)
 
