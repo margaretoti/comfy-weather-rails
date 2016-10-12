@@ -1,10 +1,18 @@
 class OutfitSerializer < BaseSerializer
-has_many :article_of_clothings
+  AFTERNOON_HOUR = 15
+  
+  has_many :article_of_clothings
 
-attributes :latitude, :longitude, :notes, :is_public, :photo_url,
-          :outfit_weather_types, :weather_types
+  attributes :latitude, :longitude, :notes, :is_public, :photo_url,
+             :outfit_weather_types, :weather_types, :weather
 
   def photo_url
     object.photo.url
+  end
+
+  def weather
+    ForecastIO
+      .forecast(object.latitude, object.longitude, time: object.updated_at.to_i)
+      .hourly.data[AFTERNOON_HOUR]
   end
 end
