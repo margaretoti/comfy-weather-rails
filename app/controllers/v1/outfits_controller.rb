@@ -7,6 +7,12 @@ class V1::OutfitsController < ApplicationController
 
   def create
     outfit = Outfit.create!(outfit_params)
+
+    article_of_clothing_params.each do |article_of_clothing_id|
+      @article = ArticleOfClothing.find(article_of_clothing_id)
+      outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
+    end
+
     outfit.add_weather_type
 
     render json: outfit
@@ -16,11 +22,6 @@ class V1::OutfitsController < ApplicationController
     outfit = Outfit.find(params[:id])
     outfit_weather_type = outfit.outfit_weather_types.last
     outfit_weather_type.update!(outfit_weather_type_params)
-
-    article_of_clothing_params.each do |article_of_clothing_id|
-      @article = ArticleOfClothing.find(article_of_clothing_id)
-      outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
-    end
 
     render json: outfit
   end

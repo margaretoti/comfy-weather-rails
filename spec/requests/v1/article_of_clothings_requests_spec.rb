@@ -74,7 +74,7 @@ describe 'ArticlesOfClothing endpoints' do
 
         post(article_of_clothings_url, article_of_clothing_params.to_json, authorization_headers(user))
 
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :bad_request
       end
     end
   end

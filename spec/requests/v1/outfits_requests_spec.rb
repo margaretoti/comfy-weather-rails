@@ -3,45 +3,22 @@ require 'rails_helper'
 describe 'Outfits endpoints' do
   describe 'GET /outfits' do
     it 'returns JSON for outfits' do
-
+      user = create(:user)
       outfits = create_list(:outfit, 3)
 
-      get(outfits_url, {}, accept_headers)
+      get(outfits_url, {}, authorization_headers(user))
 
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(3).at_path('outfits')
     end
   end
 
-<<<<<<< HEAD
   describe 'POST /outfits' do
     context 'with valid outfit params' do
       it 'returns 200 status and the JSON for an outfit' do
         stub_weather_api_request
-=======
-  describe 'POST/outfits' do
-    it 'returns 200 status and the JSON for an outfit' do
-      base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
-
-      user = create(:user)
-      articles = create_list(:article_of_clothing, 3, user: user)
-
-      outfit_params =
-      {
-        outfit: {
-          latitude: 37.792,
-          longitude: -122.393,
-          notes: "comfy",
-          photo: "data:image/jpg;base64,#{base64_string}",
-        },
-        article_of_clothings: articles.map(&:id)
-      }
-
-      post(outfits_url, outfit_params.to_json, authorization_headers(user))
->>>>>>> 4516190... added failure state handling
 
         weather_type = create(:weather_type)
-
         base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
 
         user = create(:user)
@@ -60,7 +37,6 @@ describe 'Outfits endpoints' do
         post(outfits_url, outfit_params.to_json, authorization_headers(user))
 
         expect(response).to have_http_status :ok
-
         expect(response.body).to have_json_path('outfit/id')
         expect(response.body).to have_json_path('outfit/created_at')
         expect(response.body).to have_json_path('outfit/updated_at')
@@ -87,7 +63,7 @@ describe 'Outfits endpoints' do
             latitude: 42.36,
             notes: "chilly",
             photo: "data:image/jpg;base64,#{base64_string}"
-          }
+          },
           article_of_clothings: articles.map(&:id)
         }
 
