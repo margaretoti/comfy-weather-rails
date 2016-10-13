@@ -1,0 +1,1 @@
+AFTERNOON_HOUR = ENV.fetch('AFTERNOON_HOUR').to_i
