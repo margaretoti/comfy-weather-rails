@@ -12,6 +12,18 @@ describe 'ArticlesOfClothing endpoints' do
 
         get(article_of_clothings_url, { category_id: categories[0].id }, authorization_headers(user))
 
+        json = JSON.parse(response.body)
+        i = 0
+        begin
+          article_id = json["article_of_clothings"][i]["id"]
+          article_db = ArticleOfClothing.find(article_id)
+          article_db_category_id = article_db.category_id
+
+          expect(article_db_category_id).to eq(categories[0].id)
+
+          i += 1
+        end while i < articles.length
+
         expect(response).to have_http_status :ok
         expect(response.body).to have_json_size(3).at_path('article_of_clothings')
       end
