@@ -1,11 +1,8 @@
 class OutfitSerializer < BaseSerializer
-<<<<<<< HEAD
   AFTERNOON_HOUR = 15
-  
+
   has_many :article_of_clothings
 
-=======
->>>>>>> b29489a... add env variable for afternoon_hour, modify resource restrictions in route
   attributes :latitude, :longitude, :notes, :is_public, :photo_url,
              :outfit_weather_types, :weather_types, :weather
 

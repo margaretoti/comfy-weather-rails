@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'Outfits endpoints' do
   describe 'GET /outfits' do
     it 'returns JSON for outfits' do
+      stub_weather_api_request
       user = create(:user)
       outfits = create_list(:outfit, 3)
 
@@ -78,6 +79,7 @@ describe 'Outfits endpoints' do
   describe 'PATCH /rating' do
     context 'with valid outfit weather type params' do
       it 'sets the new rating' do
+        stub_weather_api_request
         user = create(:user)
         outfit = create(:outfit_with_weather_types)
         new_rating = "toasty"
