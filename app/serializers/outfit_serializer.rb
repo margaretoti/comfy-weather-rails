@@ -11,7 +11,11 @@ class OutfitSerializer < BaseSerializer
   end
 
   def rating
-    object.outfit_weather_types.last.rating
+     if object.outfit_weather_types.present?
+       object.outfit_weather_types.last.rating
+     else
+       nil
+     end
   end
 
   def weather
