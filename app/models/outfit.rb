@@ -25,4 +25,8 @@ class Outfit < ActiveRecord::Base
                               .first
     weather_types << weather_type
   end
+
+  def self.falls_into_weather_type(temperature)
+    Outfit.joins(:weather_types).where('temp_range @> ?', temperature.round)
+  end
 end

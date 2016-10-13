@@ -28,6 +28,16 @@ class WeatherForecast
     return forecast_intervals
   end
 
+  def self.get_temperature(latitude:, longitude:, period: nil)
+    new(latitude: latitude, longitude: longitude, period: nil).get_temperature
+  end
+
+  def get_temperature
+    @temperature ||= forecast.hourly
+                             .data[AFTERNOON_HOUR][PREFERRED_TEMPERATURE]
+                             .round
+  end
+
   def self.get_weather(latitude:, longitude:, period: nil)
     new(latitude: latitude, longitude: longitude, period: period).get_weather
   end

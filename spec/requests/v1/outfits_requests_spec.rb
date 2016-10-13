@@ -1,16 +1,22 @@
 require 'rails_helper'
 
 describe 'Outfits endpoints' do
-  describe 'GET /outfits' do
-    it 'returns JSON for outfits' do
+  describe 'GET /outfits?latitude=42.36&longitude=-71.06' do
+    it 'returns JSON for comfy outfits that were wore in same temperature range' do
       stub_weather_api_request
       user = create(:user)
-      outfits = create_list(:outfit, 3)
+      outfits = create_list(:outfit_with_comfy_weather_types, 2)
+      outfits << create(:outfit_with_toasty_weather_types)
+      outfits << create(:outfit_with_chilly_weather_types)
+      location_params = {
+        latitude: 42.36,
+        longitude: -71.06
+      }
 
-      get(outfits_url, {}, authorization_headers(user))
+      get(outfits_url(location_params), {}, authorization_headers(user))
 
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_size(3).at_path('outfits')
+      expect(response.body).to have_json_size(2).at_path('outfits')
     end
   end
 
@@ -81,7 +87,7 @@ describe 'Outfits endpoints' do
       it 'sets the new rating' do
         stub_weather_api_request
         user = create(:user)
-        outfit = create(:outfit_with_weather_types)
+        outfit = create(:outfit_with_comfy_weather_types)
         new_rating = "toasty"
         params = { 'rating': new_rating }
         outfit_weather_type_params = { id: outfit.id, 'outfit_weather_type': params }
@@ -97,7 +103,7 @@ describe 'Outfits endpoints' do
     context 'with invalid outfit weather type params' do
       it 'remains the old rating' do
         user = create(:user)
-        outfit = create(:outfit_with_weather_types)
+        outfit = create(:outfit_with_comfy_weather_types)
         old_rating = outfit.outfit_weather_types.last.rating
         new_rating = "bad"
         params = { 'rating': new_rating }
