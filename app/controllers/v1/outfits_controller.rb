@@ -7,6 +7,12 @@ class V1::OutfitsController < ApplicationController
 
   def create
     outfit = Outfit.create!(outfit_params)
+
+    article_of_clothing_params.each do |article_of_clothing_id|
+      @article = ArticleOfClothing.find(article_of_clothing_id)
+      outfit_articles = OutfitArticleOfClothing.create!(article_of_clothing_id: article_of_clothing_id, outfit: outfit)
+    end
+
     outfit.add_weather_type
 
     render json: outfit
@@ -33,5 +39,9 @@ class V1::OutfitsController < ApplicationController
     params
       .require(:outfit_weather_type)
       .permit(:rating)
+  end
+
+  def article_of_clothing_params
+    params.require(:article_of_clothings)
   end
 end

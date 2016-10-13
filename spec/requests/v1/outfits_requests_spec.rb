@@ -3,10 +3,10 @@ require 'rails_helper'
 describe 'Outfits endpoints' do
   describe 'GET /outfits' do
     it 'returns JSON for outfits' do
-
+      user = create(:user)
       outfits = create_list(:outfit, 3)
 
-      get(outfits_url, {}, accept_headers)
+      get(outfits_url, {}, authorization_headers(user))
 
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(3).at_path('outfits')
@@ -17,21 +17,26 @@ describe 'Outfits endpoints' do
     context 'with valid outfit params' do
       it 'returns 200 status and the JSON for an outfit' do
         stub_weather_api_request
+
         weather_type = create(:weather_type)
         base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
+
         user = create(:user)
+        articles = create_list(:article_of_clothing, 3, user: user)
+
         outfit_params = {
           outfit: {
             latitude: 42.36,
             longitude: -71.06,
             notes: "comfy",
             photo: "data:image/jpg;base64,#{base64_string}"
-          }
+          },
+          article_of_clothings: articles.map(&:id)
         }
+
         post(outfits_url, outfit_params.to_json, authorization_headers(user))
 
         expect(response).to have_http_status :ok
-
         expect(response.body).to have_json_path('outfit/id')
         expect(response.body).to have_json_path('outfit/created_at')
         expect(response.body).to have_json_path('outfit/updated_at')
@@ -45,18 +50,23 @@ describe 'Outfits endpoints' do
       end
     end
 
-    context 'with invalid oufit params (missing longitude)' do
+    context 'with invalid outfit params (missing longitude)' do
       it 'returns 400 status' do
         weather_type = create(:weather_type)
         base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
+
         user = create(:user)
+        articles = create_list(:article_of_clothing, 3, user: user)
+
         outfit_params = {
           outfit: {
             latitude: 42.36,
             notes: "chilly",
             photo: "data:image/jpg;base64,#{base64_string}"
-          }
+          },
+          article_of_clothings: articles.map(&:id)
         }
+
         post(outfits_url, outfit_params.to_json, authorization_headers(user))
 
         expect(Outfit.count).to eq 0
