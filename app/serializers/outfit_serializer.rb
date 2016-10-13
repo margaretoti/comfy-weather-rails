@@ -4,10 +4,14 @@ class OutfitSerializer < BaseSerializer
   has_many :article_of_clothings
 
   attributes :latitude, :longitude, :notes, :is_public, :photo_url,
-             :outfit_weather_types, :weather_types, :weather
+             :rating, :weather
 
   def photo_url
     object.photo.url
+  end
+
+  def rating
+    object.outfit_weather_types.last.rating
   end
 
   def weather
