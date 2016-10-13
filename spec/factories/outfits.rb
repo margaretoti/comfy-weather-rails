@@ -17,6 +17,7 @@ FactoryGirl.define do
         outfit_weather_type = outfit.outfit_weather_types
                                     .where(weather_type: evaluator.weather_type)
                                     .first
+        outfit_weather_type.rating = 'comfy'
         outfit_weather_type.save
       end
     end
@@ -32,6 +33,7 @@ FactoryGirl.define do
         outfit_weather_type = outfit.outfit_weather_types
                                     .where(weather_type: evaluator.weather_type)
                                     .first
+        outfit_weather_type.rating = 'chilly'
         outfit_weather_type.save
       end
     end
@@ -47,6 +49,7 @@ FactoryGirl.define do
         outfit_weather_type = outfit.outfit_weather_types
                                     .where(weather_type: evaluator.weather_type)
                                     .first
+        outfit_weather_type.rating = 'toasty'
         outfit_weather_type.save
       end
     end

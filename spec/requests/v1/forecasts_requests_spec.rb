@@ -6,7 +6,7 @@ describe 'Forecasts endpoints' do
     it 'returns JSON for morning forecast' do
       stub_weather_api_request
 
-      params = {latitude: 42.36, longitude: -71.06, period: "morning"}.to_json
+      params = {latitude: 42.36, longitude: -71.06, period: 'morning'}.to_json
 
       post(forecasts_url, params, accept_headers)
 
@@ -20,7 +20,7 @@ describe 'Forecasts endpoints' do
     it 'returns JSON for afternoon forecast' do
       stub_weather_api_request
 
-      params = {latitude: 42.36, longitude: -71.06, period: "afternoon"}.to_json
+      params = {latitude: 42.36, longitude: -71.06, period: 'afternoon'}.to_json
 
       post(forecasts_url, params, accept_headers)
 
@@ -34,7 +34,7 @@ describe 'Forecasts endpoints' do
     it 'returns JSON for evening forecast' do
       stub_weather_api_request
 
-      params = {latitude: 42.36, longitude: -71.06, period: "evening"}.to_json
+      params = {latitude: 42.36, longitude: -71.06, period: 'evening'}.to_json
 
       post(forecasts_url, params, accept_headers)
 
@@ -48,7 +48,7 @@ describe 'Forecasts endpoints' do
     it 'returns JSON for daily forecast' do
       stub_weather_api_request
 
-      params = {latitude: 42.36, longitude: -71.06, period: "daily"}.to_json
+      params = {latitude: 42.36, longitude: -71.06, period: 'daily'}.to_json
 
       post(forecasts_url, params, accept_headers)
 
