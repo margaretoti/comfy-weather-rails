@@ -7,20 +7,10 @@ describe Category do
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:selected_icon) }
-    it { should validate_presence_of(:unselected_icon) }
+    it { should validate_presence_of(:selected_icon_1x) }
+    it { should validate_presence_of(:selected_icon_2x) }
+    it { should validate_presence_of(:selected_icon_3x) }
   end
-
-  # describe 'icons' do
-  #   it { should have_attached_file(:selected_icon) }
-  #   it { should validate_attachment_presence(:selected_icon) }
-  #   it { should validate_attachment_content_type(:selected_icon).
-  #                 allowing('image/png', 'image/svg', 'image/svg+xml') }
-  #   it { should have_attached_file(:unselected_icon) }
-  #   it { should validate_attachment_presence(:unselected_icon) }
-  #   it { should validate_attachment_content_type(:unselected_icon).
-  #                 allowing('image/png', 'image/svg', 'image/svg+xml') }
-  # end
 
   describe 'icons' do
     it { should have_attached_file(:selected_icon_1x) }
@@ -35,6 +25,5 @@ describe Category do
     it { should validate_attachment_presence(:selected_icon_3x) }
     it { should validate_attachment_content_type(:selected_icon_3x).
                   allowing('image/png') }
-}
   end
 end
