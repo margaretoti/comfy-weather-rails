@@ -16,7 +16,7 @@ class V1::OutfitsController < ApplicationController
       date = Date.current
     end
 
-    outfit = Outfit.where("DATE(created_at) = ?", date)
+    outfit = Outfit.where("DATE(created_at) = ?", date).first
 
     render json: outfit
   end
