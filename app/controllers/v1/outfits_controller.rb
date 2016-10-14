@@ -7,6 +7,20 @@ class V1::OutfitsController < ApplicationController
     render json: outfits
   end
 
+  def show
+    if params[:date]
+      date = Date.parse("#{params[:date]['day']}-
+                         #{params[:date]['month']}-
+                         #{params[:date]['year']}")
+    else
+      date = Date.current
+    end
+
+    outfit = Outfit.where("DATE(created_at) = ?", date)
+
+    render json: outfit
+  end
+
   def create
     outfit = Outfit.create!(outfit_params)
 

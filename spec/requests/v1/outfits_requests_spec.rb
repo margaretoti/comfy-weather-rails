@@ -23,6 +23,20 @@ describe 'Outfits endpoints' do
     end
   end
 
+  describe 'GET /outfit/:date' do
+    it 'returns JSON for outfits created at that day' do
+      user = create(:user)
+      outfits = create_list(:outfit, 3)
+
+      get(outfits_url, {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_size(3).at_path('outfits')
+      expect(parsed_body['outfits'][0]['created_at'].to_date).to eq Time.now.to_date
+    end
+  end
+
   describe 'POST /outfits' do
     context 'with valid outfit params' do
       it 'returns 200 status and the JSON for an outfit' do
