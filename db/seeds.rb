@@ -35,9 +35,8 @@ category_data.each do |category|
   article_category = Category.find_or_initialize_by(name: category[:name])
   puts "About to update: #{category[:name]}"
   article_category.update!(selected_icon_1x: File.open("lib/assets/categories/selected_icons/1x/#{category[:icon] + '.png'}", 'rb'),
-          selected_icon_2x: File.open("lib/assets/categories/selected_icons/2x/#{category[:icon] + '.png'}", 'rb'),
-          selected_icon_3x: File.open("lib/assets/categories/selected_icons/3x/#{category[:icon] + '.png'}", 'rb'),
-          )
+                           selected_icon_2x: File.open("lib/assets/categories/selected_icons/2x/#{category[:icon] + '.png'}", 'rb'),
+                           selected_icon_3x: File.open("lib/assets/categories/selected_icons/3x/#{category[:icon] + '.png'}", 'rb'))
 end
 
 (0..95).step(5) do |n|
