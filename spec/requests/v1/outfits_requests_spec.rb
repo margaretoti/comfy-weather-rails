@@ -1,15 +1,25 @@
 require 'rails_helper'
 
 describe 'Outfits endpoints' do
-  describe 'GET /outfits' do
-    it 'returns JSON for outfits' do
+  describe 'GET /outfits?latitude=42.36&longitude=-71.06' do
+    it 'returns JSON for comfy outfits that were wore in same temperature range' do
+      stub_weather_api_request
       user = create(:user)
-      outfits = create_list(:outfit, 3)
+      outfits = create_list(:outfit_with_comfy_weather_types, 2)
+      outfits << create(:outfit_with_toasty_weather_types)
+      outfits << create(:outfit_with_chilly_weather_types)
+      location_params = {
+        latitude: 42.36,
+        longitude: -71.06
+      }
 
-      get(outfits_url, {}, authorization_headers(user))
+      get(outfits_url(location_params), {}, authorization_headers(user))
 
+      parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_size(3).at_path('outfits')
+      expect(response.body).to have_json_size(2).at_path('outfits')
+      expect(parsed_body['outfits'][0]['rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][1]['rating']).to eq 'comfy'
     end
   end
 
@@ -45,8 +55,9 @@ describe 'Outfits endpoints' do
         expect(response.body).to have_json_path('outfit/photo_url')
         expect(response.body).to have_json_path('outfit/notes')
         expect(response.body).to have_json_path('outfit/is_public')
-        have_outfit_weather_types_json_path(response.body, 'outfit/outfit_weather_types/0')
-        have_weather_types_json_path(response.body, 'outfit/weather_types/0')
+        expect(response.body).to have_json_path('outfit/rating')
+        have_weather_json_path(response.body, 'outfit/weather')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/0')
       end
     end
 
@@ -78,8 +89,9 @@ describe 'Outfits endpoints' do
   describe 'PATCH /rating' do
     context 'with valid outfit weather type params' do
       it 'sets the new rating' do
+        stub_weather_api_request
         user = create(:user)
-        outfit = create(:outfit_with_weather_types)
+        outfit = create(:outfit_with_comfy_weather_types)
         new_rating = "toasty"
         params = { 'rating': new_rating }
         outfit_weather_type_params = { id: outfit.id, 'outfit_weather_type': params }
@@ -95,7 +107,7 @@ describe 'Outfits endpoints' do
     context 'with invalid outfit weather type params' do
       it 'remains the old rating' do
         user = create(:user)
-        outfit = create(:outfit_with_weather_types)
+        outfit = create(:outfit_with_comfy_weather_types)
         old_rating = outfit.outfit_weather_types.last.rating
         new_rating = "bad"
         params = { 'rating': new_rating }
@@ -113,20 +125,19 @@ describe 'Outfits endpoints' do
 
   private
 
-  def have_outfit_weather_types_json_path(response_body, path)
-        expect(response_body).to have_json_path("#{path}/id")
-        expect(response_body).to have_json_path("#{path}/created_at")
-        expect(response_body).to have_json_path("#{path}/updated_at")
-        expect(response_body).to have_json_path("#{path}/rating")
-        expect(response_body).to have_json_path("#{path}/outfit_id")
-        expect(response_body).to have_json_path("#{path}/weather_type_id")
+  def have_weather_json_path(response_body, path)
+        expect(response_body).to have_json_path("#{path}/summary")
+        expect(response_body).to have_json_path("#{path}/icon")
+        expect(response_body).to have_json_path("#{path}/precipProbability")
+        expect(response_body).to have_json_path("#{path}/temperature")
+        expect(response_body).to have_json_path("#{path}/apparentTemperature")
   end
 
-  def have_weather_types_json_path(response_body, path)
-        expect(response_body).to have_json_path("#{path}/id")
-        expect(response_body).to have_json_path("#{path}/created_at")
-        expect(response_body).to have_json_path("#{path}/updated_at")
-        expect(response_body).to have_json_path("#{path}/temp_range")
-        expect(response_body).to have_json_path("#{path}/precip_type")
+  def have_article_of_clothings_json_path(response_body, path)
+    expect(response_body).to have_json_path("#{path}/id")
+    expect(response_body).to have_json_path("#{path}/updated_at")
+    expect(response_body).to have_json_path("#{path}/created_at")
+    expect(response_body).to have_json_path("#{path}/description")
+    expect(response_body).to have_json_path("#{path}/frequency")
   end
 end

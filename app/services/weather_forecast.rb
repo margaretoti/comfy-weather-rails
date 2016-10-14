@@ -9,7 +9,7 @@ class WeatherForecast
   end
 
   def forecast
-    @forecast ||= ForecastIO.forecast(latitude, longitude)
+    @forecast ||= ForecastIO.forecast(latitude, longitude, time: Time.now.to_i)
   end
 
   def hourly_forecasts
@@ -26,6 +26,16 @@ class WeatherForecast
       end
     end
     return forecast_intervals
+  end
+
+  def self.get_temperature(latitude:, longitude:, period: nil)
+    new(latitude: latitude, longitude: longitude, period: nil).get_temperature
+  end
+
+  def get_temperature
+    @temperature ||= forecast.hourly
+                             .data[AFTERNOON_HOUR][PREFERRED_TEMPERATURE]
+                             .round
   end
 
   def self.get_weather(latitude:, longitude:, period: nil)

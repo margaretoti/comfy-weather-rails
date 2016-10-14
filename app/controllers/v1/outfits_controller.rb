@@ -1,6 +1,8 @@
 class V1::OutfitsController < ApplicationController
   def index
-    outfits = Outfit.all
+    temperature = WeatherForecast.get_temperature(latitude: params[:latitude],
+                                                  longitude: params[:longitude])
+    outfits = Outfit.falls_into_weather_type(temperature)
 
     render json: outfits
   end
