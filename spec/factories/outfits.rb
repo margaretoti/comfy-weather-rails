@@ -54,4 +54,8 @@ FactoryGirl.define do
       end
     end
   end
+
+  trait :oct_12th_2016 do
+    created_at Date.new(2016, 10, 12)
+  end
 end

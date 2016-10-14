@@ -24,16 +24,55 @@ describe 'Outfits endpoints' do
   end
 
   describe 'GET /outfit/:date' do
-    it 'returns JSON for outfits created at that day' do
+    it 'returns JSON for today\'s outfit if no date specified' do
       user = create(:user)
-      outfits = create_list(:outfit, 3)
+      outfits = create(:outfit)
+      date_params = nil
 
-      get(outfits_url, {}, authorization_headers(user))
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
 
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
-      expect(response.body).to have_json_size(3).at_path('outfits')
-      expect(parsed_body['outfits'][0]['created_at'].to_date).to eq Time.now.to_date
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
+    end
+
+    it 'returns JSON for that day\'s outfit if date is Oct 12th 2016' do
+      user = create(:user)
+      outfits = create(:outfit, :oct_12th_2016)
+      date_params = {
+        date: {
+          year: 2016,
+          month: 10,
+          day: 12
+        }
+      }
+
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016, 10, 12)
+    end
+
+    it 'returns JSON for today\'s outfit if no outfit was created on Oct 12th 2016' do
+      user = create(:user)
+      outfits = create(:outfit)
+      date_params = {
+        date: {
+          year: 2016,
+          month: 10,
+          day: 12
+        }
+      }
+
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
     end
   end
 
