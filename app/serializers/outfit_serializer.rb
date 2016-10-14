@@ -4,15 +4,15 @@ class OutfitSerializer < BaseSerializer
   has_many :article_of_clothings
 
   attributes :latitude, :longitude, :notes, :is_public, :photo_url,
-             :rating, :weather
+             :latest_rating, :weather
 
   def photo_url
     object.photo.url
   end
 
-  def rating
+  def latest_rating
      if object.outfit_weather_types.present?
-       object.outfit_weather_types.last.rating
+       object.outfit_weather_types.order("updated_at").last.rating
      else
        nil
      end
