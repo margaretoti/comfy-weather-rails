@@ -8,15 +8,21 @@ class V1::OutfitsController < ApplicationController
   end
 
   def show
+    current_date = Date.current
+
     if params[:date]
       date = Date.parse("#{params[:date]['day']}-
                          #{params[:date]['month']}-
                          #{params[:date]['year']}")
     else
-      date = Date.current
+      date = current_date
     end
 
     outfit = Outfit.where("DATE(created_at) = ?", date).first
+
+    if !outfit.present?
+      outfit = Outfit.where("DATE(created_at) = ?", current_date).first
+    end
 
     render json: outfit
   end
