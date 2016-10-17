@@ -25,7 +25,7 @@ describe 'Outfits endpoints' do
   end
 
   describe 'GET /outfit/:date' do
-    it "returns JSON for today\'s outfit if no date specified" do
+    it "returns JSON for today's outfit if no date specified" do
       stub_weather_api_request
 
       user = create(:user)
@@ -40,7 +40,7 @@ describe 'Outfits endpoints' do
       expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
     end
 
-    it "returns JSON for that day\'s outfit if date is Oct 12th 2016" do
+    it "returns JSON for that day's outfit if date is Oct 12th 2016" do
       stub_weather_api_request
 
       user = create(:user)
@@ -57,7 +57,7 @@ describe 'Outfits endpoints' do
       expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016, 10, 12)
     end
 
-    it "returns JSON for today\'s outfit if no outfit was created on Oct 12th 2016" do
+    it "returns JSON for today's outfit if no outfit was created on Oct 12th 2016" do
       stub_weather_api_request
 
       user = create(:user)
