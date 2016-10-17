@@ -15,6 +15,9 @@ class V1::ArticleOfClothingsController < ApplicationController
   private
 
   def article_of_clothing_params
-    params.require(:article_of_clothing).permit(:description, :category_id).merge(user: current_user)
+    params
+      .require(:article_of_clothing)
+      .permit(:description, :category_id)
+      .merge(user: current_user)
   end
 end
