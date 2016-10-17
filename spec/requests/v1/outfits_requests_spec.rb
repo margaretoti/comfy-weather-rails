@@ -18,8 +18,8 @@ describe 'Outfits endpoints' do
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(2).at_path('outfits')
-      expect(parsed_body['outfits'][0]['rating']).to eq 'comfy'
-      expect(parsed_body['outfits'][1]['rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][0]['latest_rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][1]['latest_rating']).to eq 'comfy'
     end
   end
 
@@ -55,7 +55,7 @@ describe 'Outfits endpoints' do
         expect(response.body).to have_json_path('outfit/photo_url')
         expect(response.body).to have_json_path('outfit/notes')
         expect(response.body).to have_json_path('outfit/is_public')
-        expect(response.body).to have_json_path('outfit/rating')
+        expect(response.body).to have_json_path('outfit/latest_rating')
         have_weather_json_path(response.body, 'outfit/weather')
         have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/0')
       end
