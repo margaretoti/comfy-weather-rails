@@ -26,6 +26,5 @@ module ComfyWeatherServer
     config.middleware.use Warden::Manager do |manager|
       manager.failure_app = lambda { |e| [ 401, {'Content-Type' => 'application/json'}, ['Authorization Failed'] ] }
     end
-    config.assets.initialize_on_precompile = false
   end
 end
