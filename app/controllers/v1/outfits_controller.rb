@@ -7,6 +7,12 @@ class V1::OutfitsController < ApplicationController
     render json: outfits
   end
 
+  def show
+    outfit = Outfit.fetch_outfit_by_date(date)
+
+    render json: outfit
+  end
+
   def create
     outfit = Outfit.create!(outfit_params)
 
@@ -45,5 +51,13 @@ class V1::OutfitsController < ApplicationController
 
   def article_of_clothing_params
     params.require(:article_of_clothings)
+  end
+
+  def date
+    if params[:date]
+      Date.parse(params[:date])
+    else
+      Date.current
+    end
   end
 end

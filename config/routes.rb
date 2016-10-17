@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     constraints(Authenticated.new) do
       resources :users, only: [:update]
       resources :outfits, only: [:index, :create, :update]
+      match '/outfit', to: 'outfits#show', via: [:get], as: :show_outfit
       match '/rating', to: 'outfits#update', via: [:patch]
       resources :article_of_clothings, only: [:index, :create]
       resources :article_of_clothings, only: :index , param: :category_id

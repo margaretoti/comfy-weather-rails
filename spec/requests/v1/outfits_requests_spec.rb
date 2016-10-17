@@ -4,6 +4,7 @@ describe 'Outfits endpoints' do
   describe 'GET /outfits?latitude=42.36&longitude=-71.06' do
     it 'returns JSON for comfy outfits that were wore in same temperature range' do
       stub_weather_api_request
+
       user = create(:user)
       outfits = create_list(:outfit_with_comfy_weather_types, 2)
       outfits << create(:outfit_with_toasty_weather_types)
@@ -18,8 +19,59 @@ describe 'Outfits endpoints' do
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_size(2).at_path('outfits')
-      expect(parsed_body['outfits'][0]['rating']).to eq 'comfy'
-      expect(parsed_body['outfits'][1]['rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][0]['latest_rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][1]['latest_rating']).to eq 'comfy'
+    end
+  end
+
+  describe 'GET /outfit/:date' do
+    it "returns JSON for today's outfit if no date specified" do
+      stub_weather_api_request
+
+      user = create(:user)
+      outfit = create(:outfit)
+      date_params = nil
+
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
+    end
+
+    it "returns JSON for that day's outfit if date is Oct 12th 2016" do
+      stub_weather_api_request
+
+      user = create(:user)
+      outfit = create(:outfit, created_at: Date.new(2016, 10, 12))
+      date_params = {
+        date: "12-10-2016"
+      }
+
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016, 10, 12)
+    end
+
+    it "returns JSON for today's outfit if no outfit was created on Oct 12th 2016" do
+      stub_weather_api_request
+
+      user = create(:user)
+      outfit = create(:outfit)
+      date_params = {
+        date: "12-10-2016"
+      }
+
+      get(show_outfit_url(date_params), {}, authorization_headers(user))
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status :ok
+      expect(response.body).to have_json_path('outfit')
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
     end
   end
 
@@ -55,7 +107,7 @@ describe 'Outfits endpoints' do
         expect(response.body).to have_json_path('outfit/photo_url')
         expect(response.body).to have_json_path('outfit/notes')
         expect(response.body).to have_json_path('outfit/is_public')
-        expect(response.body).to have_json_path('outfit/rating')
+        expect(response.body).to have_json_path('outfit/latest_rating')
         have_weather_json_path(response.body, 'outfit/weather')
         have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/0')
       end
