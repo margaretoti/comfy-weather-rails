@@ -3,7 +3,7 @@ class Outfit < ActiveRecord::Base
 
   has_many :outfit_article_of_clothings, dependent: :destroy
   has_many :article_of_clothings, through: :outfit_article_of_clothings, dependent: :destroy
-  has_many :outfit_weather_types
+  has_many :outfit_weather_types, dependent: :destroy
   has_many :weather_types, through: :outfit_weather_types
 
   has_attached_file :photo

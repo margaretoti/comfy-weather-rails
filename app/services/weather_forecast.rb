@@ -35,7 +35,6 @@ class WeatherForecast
   def get_temperature
     @temperature ||= forecast.hourly
                              .data[AFTERNOON_HOUR][PREFERRED_TEMPERATURE]
-                             .round
   end
 
   def self.get_weather(latitude:, longitude:, period: nil)
