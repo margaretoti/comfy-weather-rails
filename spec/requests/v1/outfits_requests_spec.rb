@@ -24,9 +24,9 @@ describe 'Outfits endpoints' do
   end
 
   describe 'GET /outfit/:date' do
-    it 'returns JSON for today\'s outfit if no date specified' do
+    it "returns JSON for today\'s outfit if no date specified" do
       user = create(:user)
-      outfits = create(:outfit)
+      outfit = create(:outfit)
       date_params = nil
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))
@@ -37,15 +37,11 @@ describe 'Outfits endpoints' do
       expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
     end
 
-    it 'returns JSON for that day\'s outfit if date is Oct 12th 2016' do
+    it "returns JSON for that day\'s outfit if date is Oct 12th 2016" do
       user = create(:user)
-      outfits = create(:outfit, :oct_12th_2016)
+      outfit = create(:outfit, created_at: Date.new(2016, 10, 12))
       date_params = {
-        date: {
-          year: 2016,
-          month: 10,
-          day: 12
-        }
+        date: "12-10-2016"
       }
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))
@@ -56,15 +52,11 @@ describe 'Outfits endpoints' do
       expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016, 10, 12)
     end
 
-    it 'returns JSON for today\'s outfit if no outfit was created on Oct 12th 2016' do
+    it "returns JSON for today\'s outfit if no outfit was created on Oct 12th 2016" do
       user = create(:user)
-      outfits = create(:outfit)
+      outfit = create(:outfit)
       date_params = {
-        date: {
-          year: 2016,
-          month: 10,
-          day: 12
-        }
+        date: "12-10-2016"
       }
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))

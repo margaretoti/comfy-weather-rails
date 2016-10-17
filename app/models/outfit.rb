@@ -29,4 +29,12 @@ class Outfit < ActiveRecord::Base
   def self.falls_into_weather_type(temperature)
     Outfit.joins(:weather_types).where('temp_range @> ?', temperature.round)
   end
+
+  def self.fetch_outfit_by_date(date)
+    outfit_of_the_day = Outfit.where("DATE(created_at) = ?", date).first
+    if !outfit_of_the_day
+      outfit_of_the_day = Outfit.where("DATE(created_at) = ?", Date.current).first
+    end
+    outfit_of_the_day
+  end
 end
