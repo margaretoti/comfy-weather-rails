@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010201129) do
+ActiveRecord::Schema.define(version: 20161013183329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,17 +29,21 @@ ActiveRecord::Schema.define(version: 20161010201129) do
   add_index "article_of_clothings", ["user_id"], name: "index_article_of_clothings_on_user_id", using: :btree
 
   create_table "categories", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "name",                         null: false
-    t.string   "unselected_icon_file_name",    null: false
-    t.string   "unselected_icon_content_type", null: false
-    t.integer  "unselected_icon_file_size",    null: false
-    t.datetime "unselected_icon_updated_at",   null: false
-    t.string   "selected_icon_file_name",      null: false
-    t.string   "selected_icon_content_type",   null: false
-    t.integer  "selected_icon_file_size",      null: false
-    t.datetime "selected_icon_updated_at",     null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "name",                          null: false
+    t.string   "selected_icon_1x_file_name"
+    t.string   "selected_icon_1x_content_type"
+    t.integer  "selected_icon_1x_file_size"
+    t.datetime "selected_icon_1x_updated_at"
+    t.string   "selected_icon_2x_file_name"
+    t.string   "selected_icon_2x_content_type"
+    t.integer  "selected_icon_2x_file_size"
+    t.datetime "selected_icon_2x_updated_at"
+    t.string   "selected_icon_3x_file_name"
+    t.string   "selected_icon_3x_content_type"
+    t.integer  "selected_icon_3x_file_size"
+    t.datetime "selected_icon_3x_updated_at"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
