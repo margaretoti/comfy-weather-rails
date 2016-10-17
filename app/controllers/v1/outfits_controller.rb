@@ -38,6 +38,36 @@ class V1::OutfitsController < ApplicationController
     render json: outfit
   end
 
+  def recommend
+    # Afternoon temperature passed from front-end thus params[:latitude]
+    temperature = WeatherForecast.get_weather(latitude: params[:latitude],
+                                              longitude: params[:longitude])
+
+    # Find outfits where the temperature falls in this range
+    # Check rating to see if comfy
+    comfy_outfits = Outfit.falls_into_weather_type(temperature).where(rating: "comfy").order(created_at: :asc)
+    recommended_outfit = comfy_outfits[0]
+
+    render json: recommended_outfit
+
+    # If no comfy find toasty outfits
+    toasty_outfits = Outfit.falls_into_weather_type(temperature).where(rating: "toasty").order(created_at: :asc)
+    recommended_outfit = toasty_outfits[0]
+
+    render json: recommended_outfit
+
+    # If no toasty find chilly
+    chilly_outfits = Outfit.falls_into_weather_type(temperature).where(rating: "chilly").order(created_at: :asc)
+    recommended_outfit = chilly_outfits[0]
+
+    render json: recommended_outfit
+
+    # Otherwise return an error
+    puts 'no appropriate outfit for current temperature range'
+
+    # render json: recommended_outfit
+  end
+
   private
 
   def outfit_params

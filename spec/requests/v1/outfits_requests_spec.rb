@@ -172,6 +172,48 @@ describe 'Outfits endpoints' do
     end
   end
 
+  describe 'GET /recommendation' do
+    describe 'recommendation behavior based on CHILLY, TOASTY, and COMFY ratings
+    available for each temperature range' do
+      context 'only outfits with a rating of comfy exist for the temp range' do
+        it 'returns a 200 status and JSON of the recommended outfit' do
+          stub_weather_api_request
+          user = create(:user)
+          outfits = create_list(:outfit_with_comfy_weather_types, 3)
+
+          get(show_recommendation_url, {}, authorization_headers(user))
+
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+        end
+      end
+
+      # context 'no outfits with a comfy rating exist, but outfits with rating
+      # toasty one temp range above the current temperature exist' do
+      #   it 'returns a 200 status and JSON of the recommended outfit' do
+      #   end
+      # end
+      #
+      # context 'no outfits with rating comfy or toasty exist, but outfits with
+      # rating chilly one temp range below the current temperature exist' do
+      #   it 'returns a 200 status and JSON of the recommended outfit' do
+      #   end
+      # end
+      #
+      # context 'no outfits with a comfy rating exist, but outfits with
+      # rating chilly 1 temp range below the current temperature exist and
+      # outfits with rating toasty one temp range above the current
+      # temperature exist' do
+      # end
+      #
+      # context 'no outfits with a comfy rating exist, and outfits with a toasty
+      # or chilly rating are 2+ temp ranges below or above the current temp
+      # range' do
+      # end
+
+    end
+  end
+
   describe 'PATCH /rating' do
     context 'with valid outfit weather type params' do
       it 'sets the new rating' do
