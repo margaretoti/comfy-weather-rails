@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   def self.for_auth(token)
     where(auth_token: token).
-      where('auth_expires_at > ?', Time.now).first
+      where('auth_expires_at > ?', Time.current).first
   end
 
   def reset_token!

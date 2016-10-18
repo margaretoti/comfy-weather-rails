@@ -69,7 +69,7 @@ describe 'Users endpoints' do
 
       current_user.reload
       expect(response).to have_http_status :no_content
-      expect(current_user.auth_expires_at < Time.now).to be true
+      expect(current_user.auth_expires_at < Time.current).to be true
     end
   end
 
@@ -80,7 +80,7 @@ describe 'Users endpoints' do
       {
           email: email,
           gender: 1,
-          preferred_time: Time.now,
+          preferred_time: Time.current,
           weather_perception: 1,
           name: "MyString"
       }

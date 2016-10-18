@@ -28,7 +28,7 @@ class V1::UsersController < ApplicationController
   end
 
   def destroy
-    current_user.auth_expires_at = Time.now
+    current_user.auth_expires_at = Time.current
     current_user.save!
 
     head :no_content
