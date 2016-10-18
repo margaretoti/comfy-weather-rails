@@ -180,8 +180,8 @@ describe 'Outfits endpoints' do
           stub_weather_api_request
           user = create(:user)
           outfits = create_list(:outfit_with_comfy_weather_types, 3)
-
-          get(show_recommendation_url, {}, authorization_headers(user))
+          params = { temperature: 63 }
+          get(show_recommendation_url, params, authorization_headers(user))
 
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
