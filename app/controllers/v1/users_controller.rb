@@ -10,8 +10,9 @@ class V1::UsersController < ApplicationController
   end
 
   def create
+
     @graph = Koala::Facebook::API.new(params[:access_token])
-    user_data = @graph.get_object("me?fields=name,picture,id")
+    user_data = @graph.get_object("me?fields=name,picture,id,email")
     user = User.populating_from_koala(user_data)
     user.reset_token!
     render json: user
