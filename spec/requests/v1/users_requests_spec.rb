@@ -69,7 +69,7 @@ describe 'Users endpoints' do
 
       current_user.reload
       expect(response).to have_http_status :no_content
-      expect(current_user.auth_expires_at).to be < Time.now
+      expect(current_user.auth_expires_at < Time.now).to be true
     end
   end
 
