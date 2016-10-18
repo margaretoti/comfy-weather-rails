@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :weather_types, only: [:index, :create, :update]
     constraints(Authenticated.new) do
       resources :users, only: [:update]
+      match 'signout', to: 'users#destroy', via: [:delete], as: :signout
       resources :outfits, only: [:index, :create, :update]
       match '/outfit', to: 'outfits#show', via: [:get], as: :show_outfit
       match '/rating', to: 'outfits#update', via: [:patch]

@@ -23,6 +23,7 @@ describe 'Users endpoints' do
         stub_valid_facebook_me_request
         stub_facebook_me_picture_request
         post(users_url, {access_token: ''}.to_json, accept_headers)
+
         expect(User.count).to eq 1
         expect have_http_status :created
       end
@@ -53,6 +54,22 @@ describe 'Users endpoints' do
         expect(response).to have_http_status :ok
         expect(current_user.name).to eq parse_json(user_attributes('test@gmail.com'))['user']['name']
       end
+    end
+  end
+
+  describe 'DELETE /signout' do
+    it "sets user's token to be expired, and returns a 204 response" do
+      current_user = create(:user)
+
+      delete(
+        signout_url,
+        {},
+        authorization_headers(current_user)
+      )
+
+      current_user.reload
+      expect(response).to have_http_status :no_content
+      expect(current_user.auth_expires_at).to be < Time.now
     end
   end
 
