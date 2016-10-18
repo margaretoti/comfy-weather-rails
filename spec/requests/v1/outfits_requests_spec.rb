@@ -178,10 +178,17 @@ describe 'Outfits endpoints' do
       context 'only outfits with a rating of comfy exist for the temp range' do
         it 'returns a 200 status and JSON of the recommended outfit' do
           stub_weather_api_request
+
           user = create(:user)
-          outfits = create_list(:outfit_with_comfy_weather_types, 3)
-          params = { temperature: 63 }
-          get(show_recommendation_url, params, authorization_headers(user))
+          outfit1 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,10,18))
+          outfit2 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,6,6))
+          outfit3 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,7,7))
+          outfit4 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,8,8))
+          outfit5 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,9,9))
+
+          temperature_params = { temperature: 63 }
+
+          get(recommendation_url(temperature_params), {} , authorization_headers(user))
 
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
