@@ -25,6 +25,12 @@ module ExternalRequests
     to_return(body: invalid_oauth_response, status: 400)
   end
 
+  def stub_valid_facebook_avatar
+    stub_request(:get, "https://graph.facebook.com/10152272830415933/picture").
+    with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+    to_return(status: 200, body: "", headers: {})
+  end
+
   def weather_data
     {
      latitude: 42.36,

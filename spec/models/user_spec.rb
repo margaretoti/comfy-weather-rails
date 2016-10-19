@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe User do
   describe 'Validations' do
+    subject { create(:user) }
     it { should have_many(:outfits) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:uid) }
@@ -33,6 +34,22 @@ describe User do
     end
   end
 
+  describe 'Populating user fields from Koala' do
+    it 'returns a user with all fields properly set' do
+      stub_valid_facebook_avatar
+
+      user = create(:user)
+
+      allow_any_instance_of(Koala::Facebook::API).to receive(:get_object).and_return(user_attributes)
+      user = User.populating_from_koala(user_attributes)
+
+      expect(user.provider).to eq('facebook')
+      expect(user.uid).to eq(user_attributes['id'])
+      expect(user.name).to eq(user_attributes['name'])
+      expect(user.email).to eq(user_attributes['email'])
+    end
+  end
+
   describe 'Reset token upon sign up/in' do
     it 'creates a new unique token for that user' do
       user = create(:user)
@@ -52,5 +69,20 @@ describe User do
       expect(user.auth_expires_at).
         to be_within(1).of(60.days.from_now)
     end
+  end
+
+  def user_attributes
+    { "name"=>"Rachel Mathew",
+      "picture"=>
+      {
+        "data"=>
+        {
+          "is_silhouette"=>false,
+          "url"=> "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14520605_10153804905380933_8577943940592585981_n.jpg?oh=17272c39773cac26910cc27c02292332&oe=58671B1A"
+        }
+      },
+      "id"=>"10152272830415933",
+      "email"=>"baloneyslice@gmail.com"
+    }
   end
 end
