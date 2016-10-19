@@ -109,14 +109,17 @@ class V1::OutfitsController < ApplicationController
   # Calulates outfit score where the score is the difference between the
   # current temperature and an outfit's average temperature range
   def calculate_outfit_score(outfit, current_temperature)
-    # Currently, an outfit only has one unique weather type
-    # This should always pass
+    # Currently, an outfit only has one unique weather type. This should always pass
     weather_type = outfit.weather_types.first
+
     reference_temperature = (weather_type.temp_range.first + weather_type.temp_range.last) / 2
-    # if outfit_is_too_warm
-    #   reference_temperature = reference_temperature - 5
-    # else if out_if_too_cold
-    #   reference_temperature = reference_temperature + 5
+
+    if outfit.rating = "toasty"
+      reference_temperature = reference_temperature - 5
+    elsif outfit.rating = "chilly"
+      reference_temperature = reference_temperature + 5
     return (current_temperature - reference_temperature).abs
+    end
   end
+
 end
