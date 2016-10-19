@@ -149,6 +149,7 @@ module ExternalRequests
   def facebook_data
       {
         name: "Harold Sipe",
+        email: "harold@gmail.com",
         picture:
         {
           data:
