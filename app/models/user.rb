@@ -11,13 +11,14 @@ class User < ActiveRecord::Base
   validates :uid, presence: true, uniqueness: true
   validates :auth_token, presence: true, uniqueness: true
   validates :auth_expires_at, presence: true
-  validates :email, uniqueness: true
+  validates :email, uniqueness: true, presence: true
 
   def self.populating_from_koala(graph)
     find_or_initialize_by(uid: graph["id"]).tap do |user|
       user.provider = "facebook"
       user.uid = graph["id"]
       user.name = graph["name"]
+      user.email = graph["email"]
       user.avatar = "https://graph.facebook.com/#{graph["id"]}/picture" if !user.avatar?
     end
   end
