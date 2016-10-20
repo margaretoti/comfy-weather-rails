@@ -12,7 +12,7 @@ module OmniAuthTestHelper
         },
         credentials: {
           token: '123456',
-          expires_at: Time.now + 1.week
+          expires_at: Time.current + 1.week
         },
         extra: {
           raw_info: {

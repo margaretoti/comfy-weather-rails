@@ -58,6 +58,22 @@ describe 'Users endpoints' do
     end
   end
 
+  describe 'DELETE /signout' do
+    it "sets user's token to be expired, and returns a 204 response" do
+      current_user = create(:user)
+
+      delete(
+        signout_url,
+        {},
+        authorization_headers(current_user)
+      )
+
+      current_user.reload
+      expect(response).to have_http_status :no_content
+      expect(current_user.auth_expires_at < Time.current).to be true
+    end
+  end
+
   private
 
   def user_attributes(email)
@@ -65,7 +81,7 @@ describe 'Users endpoints' do
       {
           email: email,
           gender: 1,
-          preferred_time: Time.now,
+          preferred_time: Time.current,
           weather_perception: 1,
           name: "MyString"
       }

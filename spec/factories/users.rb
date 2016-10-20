@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:email){|n| "user#{n}@factory.com" }
     sequence(:uid){|n| "#{n}"}
     gender 1
-    preferred_time Time.now
+    preferred_time Time.current
     weather_perception 1
     provider "MyString"
     name "MyString"

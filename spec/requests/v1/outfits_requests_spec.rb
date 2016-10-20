@@ -37,7 +37,7 @@ describe 'Outfits endpoints' do
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_path('outfit')
-      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.current.to_date
     end
 
     it "returns JSON for that day's outfit if date is Oct 12th 2016" do
@@ -71,7 +71,7 @@ describe 'Outfits endpoints' do
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status :ok
       expect(response.body).to have_json_path('outfit')
-      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.now.to_date
+      expect(parsed_body['outfit']['created_at'].to_date).to eq Time.current.to_date
     end
   end
 

@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound, ActiveRecord::RecordNotSaved do |exception|
@@ -19,8 +18,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def current_user
     request.env['warden'].user
   end
+
   helper_method :current_user
 end
