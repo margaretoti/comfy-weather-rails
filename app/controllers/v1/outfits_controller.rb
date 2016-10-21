@@ -50,6 +50,7 @@ class V1::OutfitsController < ApplicationController
 
     outfits.each do |outfit|
       outfit_score = calculate_outfit_score(outfit, current_temperature)
+      #binding.pry
       if outfit_score < recommended_outfit_score
         recommended_outfit_score = outfit_score
         ## recommended_outfit = outfit
@@ -114,12 +115,15 @@ class V1::OutfitsController < ApplicationController
 
     reference_temperature = (weather_type.temp_range.first + weather_type.temp_range.last) / 2
 
-    if outfit.rating = "toasty"
+    if outfit.outfit_weather_types.first.rating == 2
       reference_temperature = reference_temperature - 5
-    elsif outfit.rating = "chilly"
+      #binding.pry
+    elsif outfit.outfit_weather_types.first.rating == 0
       reference_temperature = reference_temperature + 5
-    return (current_temperature - reference_temperature).abs
+      #binding.pry
     end
+    #binding.pry
+    (current_temperature - reference_temperature).abs
   end
 
 end
