@@ -22,7 +22,7 @@ class AuthToken
   def reset(user:)
     params = { auth_token: generate,
                auth_expires_at: expires_at }
-    user.update(params)
+    user.update!(params)
   end
 
   private
