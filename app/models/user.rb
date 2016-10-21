@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates :uid, presence: true, uniqueness: true
   validates :auth_token, presence: true, uniqueness: true
   validates :auth_expires_at, presence: true
-  validates :email, uniqueness: true, presence: true
+  validates :email, presence: true
 
   def self.populating_from_koala(graph)
     find_or_initialize_by(uid: graph["id"]).tap do |user|
