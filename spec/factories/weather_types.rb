@@ -20,6 +20,10 @@ FactoryGirl.define do
     temp_range 0...5
   end
 
+  trait :chilly_85 do
+    temp_range 85...90
+  end
+
   trait :toasty do
     temp_range 95...100
   end
