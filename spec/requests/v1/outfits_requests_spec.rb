@@ -249,8 +249,9 @@ describe 'Outfits endpoints' do
       # temperature exist' do
       #   it 'returns a 200 status and JSON of the recommended outfit' do
       #
-      #     temperature_params = { temperature: 58 }
-      #
+      #     # range 70 to 74 - chilly
+      #     temperature_params = { temperature: 76 } #range 75 to 79 - no outfits
+      #     # range 80 to 85 - toasty
       #     get(recommendation_url(temperature_params), {} , authorization_headers(user))
       #
       #     parsed_body = JSON.parse(response.body)
@@ -260,10 +261,24 @@ describe 'Outfits endpoints' do
       #   end
       # end
 
-      # context 'no outfits with a comfy rating exist, and outfits with a toasty
-      # or chilly rating are 2+ temp ranges below or above the current temp
-      # range' do
-      # end
+      context 'no outfits with a comfy rating exist, and outfits with a toasty
+      or chilly rating are 2+ temp ranges below or above the current temp
+      range' do
+        it 'returns a 200 status and empty JSON' do
+          user = create(:user)
+
+          outfit16 = create(:outfit_with_chilly_weather_types)
+          outfit17 = create(:outfit_with_toasty_weather_types)
+
+          temperature_params = { temperature: 75 }
+
+          get(recommendation_url(temperature_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(parsed_body['outfit']).to eq(nil)
+        end
+      end
 
     end
   end
