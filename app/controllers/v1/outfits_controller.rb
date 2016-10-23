@@ -49,6 +49,7 @@ class V1::OutfitsController < ApplicationController
     recommended_outfit_score = Float::INFINITY
 
     outfits.each do |outfit|
+      # binding.pry
       outfit_score = calculate_outfit_score(outfit, current_temperature)
       #binding.pry
       if outfit_score < recommended_outfit_score
@@ -114,15 +115,15 @@ class V1::OutfitsController < ApplicationController
     weather_type = outfit.weather_types.first
 
     reference_temperature = (weather_type.temp_range.first + weather_type.temp_range.last) / 2
-
-    if outfit.outfit_weather_types.first.rating == 2
+    # binding.pry
+    if outfit.outfit_weather_types.first.rating == "toasty"
       reference_temperature = reference_temperature - 5
       #binding.pry
-    elsif outfit.outfit_weather_types.first.rating == 0
+    elsif outfit.outfit_weather_types.first.rating == "chilly"
       reference_temperature = reference_temperature + 5
       #binding.pry
     end
-    #binding.pry
+    # binding.pry
     (current_temperature - reference_temperature).abs
   end
 
