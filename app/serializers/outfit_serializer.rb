@@ -2,7 +2,6 @@ class OutfitSerializer < BaseSerializer
   AFTERNOON_HOUR = 15
 
   has_many :article_of_clothings
-  
   attributes :latitude, :longitude, :notes, :is_public, :photo_url,
              :latest_rating, :weather
 

@@ -18,13 +18,12 @@ class V1::OutfitsController < ApplicationController
 
     if article_of_clothings
       article_of_clothings.each do |article_of_clothing_id|
-        @article = OutfitArticleOfClothing.create(outfit_id: outfit.id,
+        @article = OutfitArticleOfClothing.create!(outfit_id: outfit.id,
                                                   article_of_clothing_id: article_of_clothing_id)
       end
     end
 
     outfit.add_weather_type
-
     outfit.valid?
 
     render json: outfit
