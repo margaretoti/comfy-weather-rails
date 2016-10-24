@@ -41,5 +41,5 @@ end
 
 (0..95).step(5) do |n|
   puts "Seeding weather_type - temp_range: #{n..(n + 4)}"
-  WeatherType.create(temp_range: n..(n + 4))
+  WeatherType.find_or_initialize_by(temp_range: n..(n + 4))
 end
