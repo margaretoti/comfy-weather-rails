@@ -39,11 +39,6 @@ category_data.each do |category|
                            selected_icon_3x: File.open("lib/assets/categories/selected_icons/3x/#{category[:icon] + '.png'}", 'rb'))
 end
 
-# (0..95).step(5) do |n|
-#   puts "Seeding weather_type - temp_range: #{n..(n + 4)}"
-#   WeatherType.find_or_create_by!(temp_range: n..(n + 4))
-# end
-
 (0..95).step(5) do |n|
   puts "Seeding weather_type - temp_range: #{n..(n + 4)}"
   if WeatherType.where("temp_range = ?",  n..(n+4)).nil?
