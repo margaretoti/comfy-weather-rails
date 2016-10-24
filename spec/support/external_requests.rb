@@ -60,7 +60,7 @@ module ExternalRequests
      {
        data:
         [
-          {},{},{},{},{},{},{},
+          {},{},{},{},{},{},{},{},
           {time: 1475197200,
            summary: "Overcast",
            icon: "cloudy",
@@ -77,7 +77,7 @@ module ExternalRequests
            pressure: 1031.83,
            ozone: 287.76
          },
-         {},{},{},{},{},{},{},
+         {},{},{},{},{},{},
          {
            time: 1475226000,
            summary: "Overcast",
