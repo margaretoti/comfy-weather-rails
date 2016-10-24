@@ -44,41 +44,32 @@ class V1::OutfitsController < ApplicationController
     outfits = Outfit.joins(:weather_types).all
 
     # 2. Calculate the lowest recommended outfit score
-    ## recommended_outfit = nil
-    recommended_outfits = []
+    recommended_outfit = nil
     recommended_outfit_score = Float::INFINITY
 
+    # a. For each outfit, calculate it's outfit score
     outfits.each do |outfit|
-      # binding.pry
       outfit_score = calculate_outfit_score(outfit, current_temperature)
-      #binding.pry
-      if outfit_score < recommended_outfit_score
+      # b. If the current recommended outfit is nil,
+      #    the outfit has a score less than the current recommended outfit score,
+      #    or outfit score equals the recommended outfit score and the outfit created
+      #    on date is less than the current recommended outfit created on date,
+      #    set the recommended outfit to be the current outfit
+      if (recommended_outfit == nil) || (outfit_score < recommended_outfit_score) ||
+        (outfit_score == recommended_outfit_score && outfit.created_at < recommended_outfit.created_at)
         recommended_outfit_score = outfit_score
-        ## recommended_outfit = outfit
+        recommended_outfit = outfit
       end
     end
 
-    # 3. Create an array of the recommended outfits that have the lowest
-    # recommended outfit score that is no more than 1 temp range away from the
-    # current temperature
+    # 3. Render the JSON for the recommended_outfit, unless the recommended
+    #    outfit score is more than 1 temp range below or above
+    #    the current temperature
     if recommended_outfit_score > 5
-      puts 'no good outfits because they are all 5 or more degrees away'
-
-      render json: []
-    else
-      outfits.each do |outfit|
-        outfit_score = calculate_outfit_score(outfit, current_temperature)
-        if outfit_score == recommended_outfit_score
-          recommended_outfits.push(outfit)
-        end
-      end
-
-      # 4. Sort the recommended outfits array by date and store the oldest worn one
-      recommended_outfits.sort_by! { |recommended_outfit| recommended_outfit.created_at }
-      recommended_outfit = recommended_outfits[0]
-
-      render json: recommended_outfit
+      recommended_outfit = nil
     end
+
+    render json: recommended_outfit
   end
 
   private
@@ -110,21 +101,19 @@ class V1::OutfitsController < ApplicationController
 
   # Calulates outfit score where the score is the difference between the
   # current temperature and an outfit's average temperature range
+  # Example: An outfit with temp range 70 to 74 has an outfit score of 72
   def calculate_outfit_score(outfit, current_temperature)
-    # Currently, an outfit only has one unique weather type. This should always pass
-    weather_type = outfit.weather_types.first
+    weather_type = outfit.weather_types.first # each outfit has one unique weather type
 
-    reference_temperature = (weather_type.temp_range.first + weather_type.temp_range.last) / 2
-    # binding.pry
-    if outfit.outfit_weather_types.first.rating == "toasty"
+    reference_temperature = (weather_type.temp_range.first +
+                             weather_type.temp_range.last) / 2
+
+    if outfit.outfit_weather_types.first.rating == 'toasty'
       reference_temperature = reference_temperature - 5
-      #binding.pry
-    elsif outfit.outfit_weather_types.first.rating == "chilly"
+    elsif outfit.outfit_weather_types.first.rating == 'chilly'
       reference_temperature = reference_temperature + 5
-      #binding.pry
     end
-    # binding.pry
+
     (current_temperature - reference_temperature).abs
   end
-
 end

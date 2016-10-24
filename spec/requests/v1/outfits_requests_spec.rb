@@ -273,6 +273,8 @@ describe 'Outfits endpoints' do
       or chilly rating are 2+ temp ranges below or above the current temp
       range' do
         it 'returns a 200 status and empty JSON' do
+          stub_weather_api_request
+
           user = create(:user)
 
           outfit16 = create(:outfit_with_chilly_weather_types)
@@ -281,10 +283,8 @@ describe 'Outfits endpoints' do
           temperature_params = { temperature: 75 }
 
           get(recommendation_url(temperature_params), {} , authorization_headers(user))
-
-          parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
-          expect(parsed_body['outfit']).to eq(nil)
+          expect(response.body).to eq('null')
         end
       end
 
