@@ -110,6 +110,8 @@ describe 'Outfits endpoints' do
         expect(response.body).to have_json_path('outfit/latest_rating')
         have_weather_json_path(response.body, 'outfit/weather')
         have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/0')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/1')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/2')
       end
     end
 
@@ -191,5 +193,7 @@ describe 'Outfits endpoints' do
     expect(response_body).to have_json_path("#{path}/created_at")
     expect(response_body).to have_json_path("#{path}/description")
     expect(response_body).to have_json_path("#{path}/frequency")
+    expect(response_body).to have_json_path("#{path}/category_id")
+    expect(response_body).to have_json_path("#{path}/category_name")
   end
 end
