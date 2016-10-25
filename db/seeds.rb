@@ -40,8 +40,8 @@ category_data.each do |category|
 end
 
 (0..95).step(5) do |n|
-  puts "Seeding weather_type - temp_range: #{n..(n + 4)}"
-  if WeatherType.where("temp_range = ?",  n..(n + 4)).nil?
+  if WeatherType.where("temp_range @> ?", n).empty?
+    puts "Seeding weather_type - temp_range: #{n..(n + 4)}"
     WeatherType.create!(temp_range: n..(n + 4))
   end
 end
