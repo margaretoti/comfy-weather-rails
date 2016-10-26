@@ -24,6 +24,7 @@ class V1::OutfitsController < ApplicationController
     end
 
     outfit.add_weather_type
+    outfit.outfit_weather_types.last.update!(rating: params[:rating])
     outfit.valid?
 
     render json: outfit
