@@ -6,9 +6,9 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfits = create_list(:outfit_with_comfy_weather_types, 2)
-      outfits << create(:outfit_with_toasty_weather_types)
-      outfits << create(:outfit_with_chilly_weather_types)
+      outfits = create_list(:outfit_with_comfy_weather_types, 2, user_id: user.id)
+      outfits << create(:outfit_with_toasty_weather_types, user_id: user.id)
+      outfits << create(:outfit_with_chilly_weather_types, user_id: user.id)
       location_params = {
         latitude: 42.36,
         longitude: -71.06
@@ -29,7 +29,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit)
+      outfit = create(:outfit, user_id: user.id)
       date_params = nil
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))
@@ -44,7 +44,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit, created_at: Date.new(2016, 10, 12))
+      outfit = create(:outfit, created_at: Date.new(2016, 10, 12), user_id: user.id)
       date_params = {
         date: "12-10-2016"
       }
@@ -61,7 +61,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit)
+      outfit = create(:outfit, user_id: user.id)
       date_params = {
         date: "12-10-2016"
       }
