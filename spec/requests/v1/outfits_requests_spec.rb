@@ -186,13 +186,11 @@ describe 'Outfits endpoints' do
           outfit4 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
           outfit5 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
 
-          # temperature_params = { temperature: 53 }
           location_params = {
             latitude: 42.36,
             longitude: -71.06
           }
 
-          # get(recommendation_url(temperature_params), {} , authorization_headers(user))
           get(recommendation_url(location_params), {} , authorization_headers(user))
 
           parsed_body = JSON.parse(response.body)
@@ -215,13 +213,11 @@ describe 'Outfits endpoints' do
           outfit9 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
           outfit10 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
 
-          # temperature_params = { temperature: 53 }
           location_params = {
             latitude: 42.36,
             longitude: -71.06
           }
 
-          # get(recommendation_url(temperature_params), {} , authorization_headers(user))
           get(recommendation_url(location_params), {} , authorization_headers(user))
 
           parsed_body = JSON.parse(response.body)
@@ -244,7 +240,6 @@ describe 'Outfits endpoints' do
           outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
           outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
 
-          #temperature_params = { temperature: 8 }
           location_params = {
             latitude: 42.36,
             longitude: -71.06
@@ -267,12 +262,11 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(91)
 
           user = create(:user)
-          # range 85 to 89 - outfits rated chilly
-          chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85, created_at: DateTime.new(2016,9,9), user_id: user.id)
-          # range 95 to 100 - outfits rated toasty
-          toasty_rated_outfit = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,10), user_id: user.id)
+          chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85,
+                                       created_at: DateTime.new(2016,9,9), user_id: user.id) # range 85 to 89 - outfits rated chilly
+          toasty_rated_outfit = create(:outfit_with_chilly_weather_types,
+                                       created_at: DateTime.new(2016,10,10), user_id: user.id) # range 95 to 100 - outfits rated toasty
 
-          #temperature_params = { temperature: 91 } #range 90 to 94 - no outfits rated comfy
           location_params = {
             latitude: 42.36,
             longitude: -71.06
