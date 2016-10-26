@@ -177,7 +177,7 @@ describe 'Outfits endpoints' do
     available for each temperature range' do
       context 'only outfits with a rating of comfy exist for the temp range' do
         it 'returns a 200 status and JSON of the recommended outfit' do
-          stub_weather_api_request
+          stub_weather_api_request(53)
 
           user = create(:user)
           outfit1 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
@@ -206,7 +206,7 @@ describe 'Outfits endpoints' do
       toasty one temp range above the current temperature exist' do
         it 'returns a 200 status and JSON of the outfit rated toasty one temp
         range above the current temp' do
-          stub_weather_api_request
+          stub_weather_api_request(93)
 
           user = create(:user)
           outfit6 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
@@ -231,73 +231,83 @@ describe 'Outfits endpoints' do
         end
       end
 
-    #   context 'no outfits with rating comfy or toasty exist, but outfits with
-    #   rating chilly one temp range below the current temperature exist' do
-    #     it 'returns a 200 status and JSON of the outfit rated chilly one temp
-    #     range below the current temp' do
-    #       stub_weather_api_request
-    #
-    #       user = create(:user)
-    #       outfit11 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,18))
-    #       outfit12 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,6,6))
-    #       outfit13 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,7,7))
-    #       outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8))
-    #       outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9))
-    #
-    #       temperature_params = { temperature: 8 }
-    #
-    #       get(recommendation_url(temperature_params), {} , authorization_headers(user))
-    #
-    #       parsed_body = JSON.parse(response.body)
-    #       expect(response).to have_http_status :ok
-    #       expect(response.body).to have_json_size(1)
-    #       expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
-    #     end
-    #   end
-    #
-    #   context 'no outfits with a comfy rating exist, but outfits with
-    #   rating chilly 1 temp range below the current temperature exist and
-    #   outfits with rating toasty one temp range above the current
-    #   temperature exist' do
-    #     it 'returns a 200 status and JSON of the outfit worn longest ago' do
-    #       stub_weather_api_request
-    #
-    #       user = create(:user)
-    #       # range 85 to 89 - outfits rated chilly
-    #       chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85, created_at: DateTime.new(2016,9,9))
-    #       # range 95 to 100 - outfits rated toasty
-    #       toasty_rated_outfit = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,10))
-    #
-    #       temperature_params = { temperature: 91 } #range 90 to 94 - no outfits rated comfy
-    #
-    #       get(recommendation_url(temperature_params), {} , authorization_headers(user))
-    #
-    #       parsed_body = JSON.parse(response.body)
-    #       expect(response).to have_http_status :ok
-    #       expect(response.body).to have_json_size(1)
-    #       expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,9,9)
-    #     end
-    #   end
-    #
-    #   context 'no outfits with a comfy rating exist, and outfits with a toasty
-    #   or chilly rating are 2+ temp ranges below or above the current temp
-    #   range' do
-    #     it 'returns a 200 status and empty JSON' do
-    #       stub_weather_api_request
-    #
-    #       user = create(:user)
-    #
-    #       outfit16 = create(:outfit_with_chilly_weather_types)
-    #       outfit17 = create(:outfit_with_toasty_weather_types)
-    #
-    #       temperature_params = { temperature: 75 }
-    #
-    #       get(recommendation_url(temperature_params), {} , authorization_headers(user))
-    #       expect(response).to have_http_status :ok
-    #       expect(response.body).to eq('null')
-    #     end
-    #   end
-    #
+      context 'no outfits with rating comfy or toasty exist, but outfits with
+      rating chilly one temp range below the current temperature exist' do
+        it 'returns a 200 status and JSON of the outfit rated chilly one temp
+        range below the current temp' do
+          stub_weather_api_request(8)
+
+          user = create(:user)
+          outfit11 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
+          outfit12 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,6,6), user_id: user.id)
+          outfit13 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,7,7), user_id: user.id)
+          outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
+          outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
+
+          #temperature_params = { temperature: 8 }
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
+        end
+      end
+
+      context 'no outfits with a comfy rating exist, but outfits with
+      rating chilly 1 temp range below the current temperature exist and
+      outfits with rating toasty one temp range above the current
+      temperature exist' do
+        it 'returns a 200 status and JSON of the outfit worn longest ago' do
+          stub_weather_api_request(91)
+
+          user = create(:user)
+          # range 85 to 89 - outfits rated chilly
+          chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85, created_at: DateTime.new(2016,9,9), user_id: user.id)
+          # range 95 to 100 - outfits rated toasty
+          toasty_rated_outfit = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,10), user_id: user.id)
+
+          #temperature_params = { temperature: 91 } #range 90 to 94 - no outfits rated comfy
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,9,9)
+        end
+      end
+
+      context 'no outfits with a comfy rating exist, and outfits with a toasty
+      or chilly rating are 2+ temp ranges below or above the current temp
+      range' do
+        it 'returns a 200 status and empty JSON' do
+          stub_weather_api_request(75)
+
+          user = create(:user)
+          outfit16 = create(:outfit_with_chilly_weather_types)
+          outfit17 = create(:outfit_with_toasty_weather_types)
+
+          # temperature_params = { temperature: 75 }
+          location_params = {
+             latitude: 42.36,
+             longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+          expect(response).to have_http_status :ok
+          expect(response.body).to eq('null')
+        end
+      end
     end
   end
 

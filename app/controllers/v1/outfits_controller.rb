@@ -82,7 +82,6 @@ class V1::OutfitsController < ApplicationController
     #    current temperature AND has a comfy rating AND belong to the current user
     #    AND order them by the oldest create_at date
     outfits = get_outfits(current_temperature, 1)
-    binding.pry
     recommended_outfit = nil
 
     # 3. If there are no outfits in the current temperature range,
@@ -96,15 +95,13 @@ class V1::OutfitsController < ApplicationController
       # additional_weather_types = find_similar_weather_types(outfit.weather_types)
 
       toasty_outfits = get_outfits(current_temperature + 5, 2)
-      binding.pry
 
       if toasty_outfits.present?
         recommended_outfit = toasty_outfits.first
       else
         chilly_outfits = get_outfits(current_temperature - 5, 0)
-
         if chilly_outfits.present?
-          recommended_outfit = toasty_outfits.first
+          recommended_outfit = chilly_outfits.first
         end
       end
     end

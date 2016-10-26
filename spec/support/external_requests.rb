@@ -1,8 +1,8 @@
 module ExternalRequests
-  def stub_weather_api_request
+  def stub_weather_api_request(temperature = 53.7)
     stub_request(:get, /https:\/\/api.darksky.net\/forecast\/8c47b7928f3919eb493c0d90dd9dd4dc\/42.36,-71.06,\d{10}/).
     with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.2'}).
-    to_return(status: 200, body: weather_data, headers: {})
+    to_return(status: 200, body: weather_data(temperature), headers: {})
   end
 
   def stub_facebook_me_request
@@ -31,7 +31,7 @@ module ExternalRequests
     to_return(status: 200, body: "", headers: {})
   end
 
-  def weather_data
+  def weather_data(temperature = 53.7)
     {
      latitude: 42.36,
      longitude: -71.06,
@@ -84,8 +84,8 @@ module ExternalRequests
            icon: "cloudy",
            precipIntensity: 0,
            precipProbability: 0,
-           temperature: 53.7,
-           apparentTemperature: 53.7,
+           temperature: temperature,
+           apparentTemperature: temperature,
            dewPoint: 49.7,
            humidity: 0.86,
            windSpeed: 10.42,
