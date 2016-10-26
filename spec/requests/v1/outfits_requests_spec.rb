@@ -138,6 +138,38 @@ describe 'Outfits endpoints' do
         expect(response).to have_http_status :bad_request
       end
     end
+
+    context 'with rating' do
+      it 'returns 200 status and the JSON for an outfit with rating' do
+        stub_weather_api_request
+
+        weather_type = create(:weather_type)
+        base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
+
+        user = create(:user)
+        articles = create_list(:article_of_clothing, 3, user: user)
+
+        outfit_params = {
+          outfit: {
+            latitude: 42.36,
+            longitude: -71.06,
+            notes: "comfy",
+            photo: "data:image/jpg;base64,#{base64_string}"
+          },
+          rating: "comfy",
+          article_of_clothings: articles.map(&:id)
+        }
+
+        post(outfits_url, outfit_params.to_json, authorization_headers(user))
+
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body['outfit']['latest_rating']).to eq 'comfy'
+        have_weather_json_path(response.body, 'outfit/weather')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/0')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/1')
+        have_article_of_clothings_json_path(response.body, 'outfit/article_of_clothings/2')
+      end
+    end
   end
 
   describe 'PATCH /rating' do
