@@ -288,10 +288,9 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(75)
 
           user = create(:user)
-          outfit16 = create(:outfit_with_chilly_weather_types)
-          outfit17 = create(:outfit_with_toasty_weather_types)
+          outfit16 = create(:outfit_with_chilly_weather_types, user_id: user.id)
+          outfit17 = create(:outfit_with_toasty_weather_types, user_id: user.id)
 
-          # temperature_params = { temperature: 75 }
           location_params = {
              latitude: 42.36,
              longitude: -71.06
