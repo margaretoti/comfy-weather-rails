@@ -62,13 +62,6 @@ ActiveRecord::Schema.define(version: 20161013183329) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "forecasts", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "outfit_article_of_clothings", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
