@@ -10,7 +10,6 @@ describe 'Outfits endpoints' do
       outfits << create(:outfit_with_toasty_weather_types, user: user)
       outfits << create(:outfit_with_chilly_weather_types, user: user)
       invalid_outfit = create(:outfit_with_toasty_weather_types, user: user)
-
       location_params = {
         latitude: 42.36,
         longitude: -71.06
