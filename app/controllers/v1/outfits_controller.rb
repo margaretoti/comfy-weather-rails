@@ -3,6 +3,7 @@ class V1::OutfitsController < ApplicationController
     temperature = WeatherForecast.get_temperature(latitude: params[:latitude],
                                                   longitude: params[:longitude])
     outfits = Outfit.falls_into_weather_type(temperature)
+                    .where(user: current_user)
 
     render json: outfits
   end

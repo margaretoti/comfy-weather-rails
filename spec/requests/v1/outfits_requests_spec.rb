@@ -6,9 +6,10 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfits = create_list(:outfit_with_comfy_weather_types, 2)
-      outfits << create(:outfit_with_toasty_weather_types)
-      outfits << create(:outfit_with_chilly_weather_types)
+      outfits = create_list(:outfit_with_comfy_weather_types, 2, user: user)
+      outfits << create(:outfit_with_toasty_weather_types, user: user)
+      outfits << create(:outfit_with_chilly_weather_types, user: user)
+      invalid_outfit = create(:outfit_with_toasty_weather_types, user: user)
       location_params = {
         latitude: 42.36,
         longitude: -71.06
@@ -21,6 +22,7 @@ describe 'Outfits endpoints' do
       expect(response.body).to have_json_size(2).at_path('outfits')
       expect(parsed_body['outfits'][0]['latest_rating']).to eq 'comfy'
       expect(parsed_body['outfits'][1]['latest_rating']).to eq 'comfy'
+      expect(parsed_body['outfits'][0]['id']).not_to eq invalid_outfit.id
     end
   end
 
@@ -29,7 +31,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit)
+      outfit = create(:outfit, user: user)
       date_params = nil
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))
@@ -44,7 +46,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit, created_at: Date.new(2016, 10, 12))
+      outfit = create(:outfit, created_at: Date.new(2016, 10, 12), user: user)
       date_params = {
         date: "12-10-2016"
       }
@@ -61,7 +63,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit)
+      outfit = create(:outfit, user: user)
       date_params = {
         date: "12-10-2016"
       }
