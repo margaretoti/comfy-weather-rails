@@ -180,11 +180,15 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(53)
 
           user = create(:user)
-          outfit1 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
-          outfit2 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,6,6), user_id: user.id)
-          outfit3 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,7,7), user_id: user.id)
-          outfit4 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
-          outfit5 = create(:outfit_with_comfy_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_comfy_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_comfy_weather_types, created_at: today - 4, user: user)
 
           location_params = {
             latitude: 42.36,
@@ -196,7 +200,9 @@ describe 'Outfits endpoints' do
           parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
-          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
+          # binding.pry
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,10,23)
         end
       end
 
@@ -207,11 +213,21 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(93)
 
           user = create(:user)
-          outfit6 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
-          outfit7 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,6,6), user_id: user.id)
-          outfit8 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,7,7), user_id: user.id)
-          outfit9 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
-          outfit10 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_toasty_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_toasty_weather_types, created_at: today - 4, user: user)
+
+          # outfit6 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,10,18), user: user)
+          # outfit7 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,6,6), user: user)
+          # outfit8 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,7,7), user: user)
+          # outfit9 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,8,8), user: user)
+          # outfit10 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,9,9), user: user)
 
           location_params = {
             latitude: 42.36,
@@ -223,7 +239,8 @@ describe 'Outfits endpoints' do
           parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
-          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+          #expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
         end
       end
 
@@ -234,11 +251,21 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(8)
 
           user = create(:user)
-          outfit11 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,18), user_id: user.id)
-          outfit12 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,6,6), user_id: user.id)
-          outfit13 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,7,7), user_id: user.id)
-          outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8), user_id: user.id)
-          outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9), user_id: user.id)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_chilly_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_chilly_weather_types, created_at: today - 4, user: user)
+
+          # outfit11 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,18), user: user)
+          # outfit12 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,6,6), user: user)
+          # outfit13 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,7,7), user: user)
+          # outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8), user: user)
+          # outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9), user: user)
 
           location_params = {
             latitude: 42.36,
@@ -250,7 +277,8 @@ describe 'Outfits endpoints' do
           parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
-          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
         end
       end
 
@@ -262,10 +290,29 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(91)
 
           user = create(:user)
+          FactoryGirl.define do
+            factory :outfit_with_chilly_weather_types_85, parent: :outfit do
+              transient do
+                weather_type { create :weather_type, :chilly_85 }
+              end
+
+              after :create do |outfit, evaluator|
+                outfit.weather_types << evaluator.weather_type
+                outfit.save
+                outfit_weather_type = outfit.outfit_weather_types
+                                            .where(weather_type: evaluator.weather_type)
+                                            .first
+                outfit_weather_type.rating = 'chilly'
+                outfit_weather_type.save
+              end
+            end
+          end
+
           chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85,
-                                       created_at: DateTime.new(2016,9,9), user_id: user.id) # range 85 to 89 - outfits rated chilly
-          toasty_rated_outfit = create(:outfit_with_chilly_weather_types,
-                                       created_at: DateTime.new(2016,10,10), user_id: user.id) # range 95 to 100 - outfits rated toasty
+                                       created_at: DateTime.new(2016,9,9), user: user) # range 85 to 89 - outfits rated chilly
+
+          toasty_rated_outfit = create(:outfit_with_toasty_weather_types,
+                                       created_at: DateTime.new(2016,10,10), user: user) # range 95 to 100 - outfits rated toasty
 
           location_params = {
             latitude: 42.36,
@@ -277,7 +324,8 @@ describe 'Outfits endpoints' do
           parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
-          expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,9,9)
+          expect(parsed_body['outfit']['id']).to eq toasty_rated_outfit.id
+          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,9,9)
         end
       end
 
@@ -288,8 +336,8 @@ describe 'Outfits endpoints' do
           stub_weather_api_request(75)
 
           user = create(:user)
-          outfit16 = create(:outfit_with_chilly_weather_types, user_id: user.id)
-          outfit17 = create(:outfit_with_toasty_weather_types, user_id: user.id)
+          outfit16 = create(:outfit_with_chilly_weather_types, user: user)
+          outfit17 = create(:outfit_with_toasty_weather_types, user: user)
 
           location_params = {
              latitude: 42.36,
@@ -344,11 +392,11 @@ describe 'Outfits endpoints' do
   private
 
   def have_weather_json_path(response_body, path)
-        expect(response_body).to have_json_path("#{path}/summary")
-        expect(response_body).to have_json_path("#{path}/icon")
-        expect(response_body).to have_json_path("#{path}/precipProbability")
-        expect(response_body).to have_json_path("#{path}/temperature")
-        expect(response_body).to have_json_path("#{path}/apparentTemperature")
+    expect(response_body).to have_json_path("#{path}/summary")
+    expect(response_body).to have_json_path("#{path}/icon")
+    expect(response_body).to have_json_path("#{path}/precipProbability")
+    expect(response_body).to have_json_path("#{path}/temperature")
+    expect(response_body).to have_json_path("#{path}/apparentTemperature")
   end
 
   def have_article_of_clothings_json_path(response_body, path)
