@@ -31,7 +31,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit, user_id: user.id)
+      outfit = create(:outfit, user: user)
       date_params = nil
 
       get(show_outfit_url(date_params), {}, authorization_headers(user))
@@ -63,7 +63,7 @@ describe 'Outfits endpoints' do
       stub_weather_api_request
 
       user = create(:user)
-      outfit = create(:outfit, user_id: user.id)
+      outfit = create(:outfit, user: user)
       date_params = {
         date: "12-10-2016"
       }
