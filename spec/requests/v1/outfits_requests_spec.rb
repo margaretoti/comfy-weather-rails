@@ -200,9 +200,7 @@ describe 'Outfits endpoints' do
           parsed_body = JSON.parse(response.body)
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
-          # binding.pry
           expect(parsed_body['outfit']['id']).to eq expected_outfit.id
-          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,10,23)
         end
       end
 
@@ -223,12 +221,6 @@ describe 'Outfits endpoints' do
 
           expected_outfit = create(:outfit_with_toasty_weather_types, created_at: today - 4, user: user)
 
-          # outfit6 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,10,18), user: user)
-          # outfit7 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,6,6), user: user)
-          # outfit8 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,7,7), user: user)
-          # outfit9 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,8,8), user: user)
-          # outfit10 = create(:outfit_with_toasty_weather_types, created_at: DateTime.new(2016,9,9), user: user)
-
           location_params = {
             latitude: 42.36,
             longitude: -71.06
@@ -240,7 +232,6 @@ describe 'Outfits endpoints' do
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
           expect(parsed_body['outfit']['id']).to eq expected_outfit.id
-          #expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
         end
       end
 
@@ -261,12 +252,6 @@ describe 'Outfits endpoints' do
 
           expected_outfit = create(:outfit_with_chilly_weather_types, created_at: today - 4, user: user)
 
-          # outfit11 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,10,18), user: user)
-          # outfit12 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,6,6), user: user)
-          # outfit13 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,7,7), user: user)
-          # outfit14 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,8,8), user: user)
-          # outfit15 = create(:outfit_with_chilly_weather_types, created_at: DateTime.new(2016,9,9), user: user)
-
           location_params = {
             latitude: 42.36,
             longitude: -71.06
@@ -278,7 +263,6 @@ describe 'Outfits endpoints' do
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
           expect(parsed_body['outfit']['id']).to eq expected_outfit.id
-          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,6, 6)
         end
       end
 
@@ -325,7 +309,6 @@ describe 'Outfits endpoints' do
           expect(response).to have_http_status :ok
           expect(response.body).to have_json_size(1)
           expect(parsed_body['outfit']['id']).to eq toasty_rated_outfit.id
-          # expect(parsed_body['outfit']['created_at'].to_date).to eq Date.new(2016,9,9)
         end
       end
 
