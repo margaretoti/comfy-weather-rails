@@ -12,12 +12,26 @@ class V1::ArticleOfClothingsController < ApplicationController
     render json: article
   end
 
+  def update
+    article = ArticleOfClothing.find(params[:id])
+    article.update!(update_article_of_clothing_params)
+
+    render json: article
+  end
+
   private
 
   def article_of_clothing_params
     params
       .require(:article_of_clothing)
       .permit(:description, :category_id)
+      .merge(user: current_user)
+  end
+
+  def update_article_of_clothing_params
+    params
+      .require(:article_of_clothing)
+      .permit(:description)
       .merge(user: current_user)
   end
 end

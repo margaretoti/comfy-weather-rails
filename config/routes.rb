@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       match '/outfit', to: 'outfits#show', via: [:get], as: :show_outfit
       match '/recommendation', to: 'outfits#recommend', via: [:get]
       match '/rating', to: 'outfits#update', via: [:patch]
-      resources :article_of_clothings, only: [:index, :create]
+      resources :article_of_clothings, only: [:index, :create, :update]
       resources :article_of_clothings, only: :index , param: :category_id
       resources :article_of_clothings, only: :create
     end
