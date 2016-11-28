@@ -174,6 +174,169 @@ describe 'Outfits endpoints' do
     end
   end
 
+  describe 'GET /recommendation' do
+    describe 'recommendation behavior based on CHILLY, TOASTY, and COMFY ratings
+    available for each temperature range' do
+      context 'only outfits with a rating of comfy exist for the temp range' do
+        it 'returns a 200 status and JSON of the recommended outfit' do
+          stub_weather_api_request(53)
+
+          user = create(:user)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_comfy_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_comfy_weather_types, created_at: today - 4, user: user)
+
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+        end
+      end
+
+      context 'no outfits with a comfy rating exist, but outfits with rating
+      toasty one temp range above the current temperature exist' do
+        it 'returns a 200 status and JSON of the outfit rated toasty one temp
+        range above the current temp' do
+          stub_weather_api_request(93)
+
+          user = create(:user)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_toasty_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_toasty_weather_types, created_at: today - 4, user: user)
+
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+        end
+      end
+
+      context 'no outfits with rating comfy or toasty exist, but outfits with
+      rating chilly one temp range below the current temperature exist' do
+        it 'returns a 200 status and JSON of the outfit rated chilly one temp
+        range below the current temp' do
+          stub_weather_api_request(8)
+
+          user = create(:user)
+
+          today = Date.new(2016,10,26)
+
+          0..3.times do |i|
+            past_date = today - i
+            create(:outfit_with_chilly_weather_types, created_at: past_date, user: user)
+          end
+
+          expected_outfit = create(:outfit_with_chilly_weather_types, created_at: today - 4, user: user)
+
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['id']).to eq expected_outfit.id
+        end
+      end
+
+      context 'no outfits with a comfy rating exist, but outfits with
+      rating chilly 1 temp range below the current temperature exist and
+      outfits with rating toasty one temp range above the current
+      temperature exist' do
+        it 'returns a 200 status and JSON of the outfit worn longest ago' do
+          stub_weather_api_request(91)
+
+          user = create(:user)
+          FactoryGirl.define do
+            factory :outfit_with_chilly_weather_types_85, parent: :outfit do
+              transient do
+                weather_type { create :weather_type, :chilly_85 }
+              end
+
+              after :create do |outfit, evaluator|
+                outfit.weather_types << evaluator.weather_type
+                outfit.save
+                outfit_weather_type = outfit.outfit_weather_types
+                                            .where(weather_type: evaluator.weather_type)
+                                            .first
+                outfit_weather_type.rating = 'chilly'
+                outfit_weather_type.save
+              end
+            end
+          end
+
+          chilly_rated_outfit = create(:outfit_with_chilly_weather_types_85,
+                                       created_at: DateTime.new(2016,9,9), user: user) # range 85 to 89 - outfits rated chilly
+
+          toasty_rated_outfit = create(:outfit_with_toasty_weather_types,
+                                       created_at: DateTime.new(2016,10,10), user: user) # range 95 to 100 - outfits rated toasty
+
+          location_params = {
+            latitude: 42.36,
+            longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+
+          parsed_body = JSON.parse(response.body)
+          expect(response).to have_http_status :ok
+          expect(response.body).to have_json_size(1)
+          expect(parsed_body['outfit']['id']).to eq toasty_rated_outfit.id
+        end
+      end
+
+      context 'no outfits with a comfy rating exist, and outfits with a toasty
+      or chilly rating are 2+ temp ranges below or above the current temp
+      range' do
+        it 'returns a 200 status and empty JSON' do
+          stub_weather_api_request(75)
+
+          user = create(:user)
+          outfit16 = create(:outfit_with_chilly_weather_types, user: user)
+          outfit17 = create(:outfit_with_toasty_weather_types, user: user)
+
+          location_params = {
+             latitude: 42.36,
+             longitude: -71.06
+          }
+
+          get(recommendation_url(location_params), {} , authorization_headers(user))
+          expect(response).to have_http_status :ok
+          expect(response.body).to eq('null')
+        end
+      end
+    end
+  end
+
   describe 'PATCH /rating' do
     context 'with valid outfit weather type params' do
       it 'sets the new rating' do
@@ -214,11 +377,11 @@ describe 'Outfits endpoints' do
   private
 
   def have_weather_json_path(response_body, path)
-        expect(response_body).to have_json_path("#{path}/summary")
-        expect(response_body).to have_json_path("#{path}/icon")
-        expect(response_body).to have_json_path("#{path}/precipProbability")
-        expect(response_body).to have_json_path("#{path}/temperature")
-        expect(response_body).to have_json_path("#{path}/apparentTemperature")
+    expect(response_body).to have_json_path("#{path}/summary")
+    expect(response_body).to have_json_path("#{path}/icon")
+    expect(response_body).to have_json_path("#{path}/precipProbability")
+    expect(response_body).to have_json_path("#{path}/temperature")
+    expect(response_body).to have_json_path("#{path}/apparentTemperature")
   end
 
   def have_article_of_clothings_json_path(response_body, path)

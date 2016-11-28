@@ -39,6 +39,14 @@ class V1::OutfitsController < ApplicationController
     render json: outfit
   end
 
+  def recommend
+    current_temperature = WeatherForecast.get_temperature(latitude: params[:latitude],
+                                                          longitude: params[:longitude])
+    recommended_outfit = OutfitRecommender.recommended_outfit(user: current_user, temperature: current_temperature)
+
+    render json: recommended_outfit
+  end
+
   private
 
   def outfit_params
