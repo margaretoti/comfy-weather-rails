@@ -33,8 +33,28 @@ class V1::OutfitsController < ApplicationController
 
   def update
     outfit = Outfit.find(params[:id])
+
+    # Update outfit rating - chilly, comfy, toasty
     outfit_weather_type = outfit.outfit_weather_types.last
     outfit_weather_type.update!(outfit_weather_type_params)
+  end
+
+  def edit_outfit
+    outfit = Outfit.find(params[:id])
+
+    # Update an outfit's articles of clothing
+    outfit.article_of_clothings.delete_all # same as OutfitArticleOfClothing.where(outfit_id: params[:id]).delete_all
+
+    if article_of_clothings
+      article_of_clothings.each do |article_of_clothing_id|
+        @article = OutfitArticleOfClothing.create!(outfit_id: outfit.id,
+                                                  article_of_clothing_id: article_of_clothing_id)
+      end
+    end
+
+    # Update outfit's photo and/or notes
+    outfit.update!(edit_outfit_params)
+    outfit.reload
 
     render json: outfit
   end
@@ -61,6 +81,14 @@ class V1::OutfitsController < ApplicationController
       .require(:outfit_weather_type)
       .permit(:rating)
   end
+
+  def edit_outfit_params
+    params
+      .require(:outfit)
+      .permit(:notes, :photo)
+      .merge(user: current_user)
+  end
+
 
   def article_of_clothings
     params[:article_of_clothings]

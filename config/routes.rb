@@ -15,10 +15,12 @@ Rails.application.routes.draw do
       resources :outfits, only: [:index, :create, :update]
       match '/outfit', to: 'outfits#show', via: [:get], as: :show_outfit
       match '/recommendation', to: 'outfits#recommend', via: [:get]
+      match '/edit_outfit', to: 'outfits#edit_outfit', via: [:patch]
       match '/rating', to: 'outfits#update', via: [:patch]
       resources :article_of_clothings, only: [:index, :create, :update]
       resources :article_of_clothings, only: :index , param: :category_id
-      resources :article_of_clothings, only: :create
+      # resources :article_of_clothings, only: :create
+      # resources :outfit_article_of_clothings, only: [:create, :destroy]
     end
   end
 end
