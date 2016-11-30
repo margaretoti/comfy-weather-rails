@@ -374,6 +374,46 @@ describe 'Outfits endpoints' do
     end
   end
 
+  describe 'PATCH /edit_outfit' do
+    context 'with valid outfit params - notes, photos, articles of clothing' do
+      it 'sets the new attributes' do
+        stub_weather_api_request
+
+        user = create(:user)
+        base64_string = Base64.encode64(File.open('spec/fixtures/image1.jpg', 'rb').read)
+        outfit = create(:outfit_with_chilly_weather_types,
+                        user: user,
+                        photo: "data:image/jpg;base64,#{base64_string}")
+        article1, article2 = create_list(:article_of_clothing, 2,  user: user)
+        
+        outfit_article1 = create(:outfit_article_of_clothing, outfit: outfit, article_of_clothing: article1)
+        outfit_article2 = create(:outfit_article_of_clothing, outfit: outfit, article_of_clothing: article2)
+
+        new_articles = create_list(:article_of_clothing, 5, user: user)
+        new_base64_string = Base64.encode64(File.open('spec/fixtures/tshirt_icon.png', 'rb').read)
+        new_notes = 'needed more layers'
+        new_photo = "data:image/jpg;base64,#{new_base64_string}"
+
+        new_outfit_params = {
+          id: outfit.id,
+          outfit: {
+            notes: new_notes,
+            photo: new_photo
+          },
+          article_of_clothings: new_articles.map(&:id)
+        }
+
+        patch(edit_outfit_url, new_outfit_params.to_json, authorization_headers(user))
+
+        outfit.reload
+
+        expect(response).to have_http_status :ok
+        expect(outfit.notes).to eq new_notes
+        expect(outfit.article_of_clothings.map(&:id)).to eq new_articles.map(&:id)
+      end
+    end
+  end
+
   private
 
   def have_weather_json_path(response_body, path)

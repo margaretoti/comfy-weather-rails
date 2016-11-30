@@ -34,7 +34,6 @@ class V1::OutfitsController < ApplicationController
   def update
     outfit = Outfit.find(params[:id])
 
-    # Update outfit rating - chilly, comfy, toasty
     outfit_weather_type = outfit.outfit_weather_types.last
     outfit_weather_type.update!(outfit_weather_type_params)
   end
@@ -42,7 +41,6 @@ class V1::OutfitsController < ApplicationController
   def edit_outfit
     outfit = Outfit.find(params[:id])
 
-    # Update an outfit's articles of clothing
     outfit.article_of_clothings.delete_all # same as OutfitArticleOfClothing.where(outfit_id: params[:id]).delete_all
 
     if article_of_clothings
@@ -52,7 +50,6 @@ class V1::OutfitsController < ApplicationController
       end
     end
 
-    # Update outfit's photo and/or notes
     outfit.update!(edit_outfit_params)
     outfit.reload
 
