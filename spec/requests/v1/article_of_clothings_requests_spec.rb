@@ -90,4 +90,28 @@ describe 'ArticlesOfClothing endpoints' do
       end
     end
   end
+
+  describe 'PATCH /article_of_clothings/id' do
+    context 'with valid attributes' do
+      it 'returns JSON for a article of clothing' do
+        user = create(:user)
+        category = create(:category)
+
+        article = create(:article_of_clothing, user: user, category: category)
+
+        update_article_of_clothing_params = {
+          article_of_clothing: {
+            description: "a very blue item"
+          }
+        }
+
+        patch(article_of_clothing_url(article), update_article_of_clothing_params.to_json, authorization_headers(user))
+
+        article.reload
+
+        expect(response).to have_http_status :ok
+        expect(article.description).to eq parse_json(update_article_of_clothing_params.to_json)['article_of_clothing']['description']
+      end
+    end
+  end
 end
